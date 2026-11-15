@@ -9,7 +9,6 @@ import type {
   CalendarDay,
   FRPRecord,
   ProvenanceRecord,
-  CaseStudy,
   SensitivityConfig,
   MatchMetrics,
   HotspotFilters,
@@ -20,8 +19,26 @@ import mockHotspots from '../mocks/hotspots.ts';
 import mockCalendar from '../mocks/calendar.ts';
 import mockFrpData from '../mocks/frpData.ts';
 import mockProvenance from '../mocks/provenance.ts';
-import mockCaseStudies from '../mocks/caseStudies.ts';
 import mockCandidateMatches from '../mocks/candidateMatches.ts';
+import type {
+  CandidateAssociation as DomainCandidateAssociation,
+  CaseStudyScenario,
+  CommonObservation,
+  DailyCalendarCell,
+  FRPComparisonResult,
+  OpportunityState as DomainOpportunityState,
+  RawAsset,
+  SensorType as DomainSensorType,
+} from '../types/skh';
+import {
+  calendarCells,
+  candidateAssociations,
+  caseStudies as skhCaseStudies,
+  frpComparisonResults,
+  observations,
+  rawAssets,
+  sensitivityGrid,
+} from '../mocks/skhFixtures.ts';
 
 export const USE_MOCK_DATA = true;
 const API_BASE = (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_BASE) || 'http://localhost:8000';
@@ -31,20 +48,115 @@ const API_BASE = (typeof import.meta !== 'undefined' && (import.meta as any).env
 // ---------------------------------------------------------------------------
 
 export interface ISKHRepository {
+  /** Backend-shaped harmonization API. */
+  getObservations(params: { bbox?: number[]; startUtc?: string; endUtc?: string; sensors?: DomainSensorType[]; includeNrt?: boolean }): Promise<CommonObservation[]>;
+  getCandidateGraph(runId: string, caseId?: string): Promise<{ nodes: CommonObservation[]; edges: DomainCandidateAssociation[]; ambiguousGroups: string[][] }>;
+  getBurningActivityCalendar(year: number, month?: number, gridKm?: number): Promise<DailyCalendarCell[]>;
+  getFRPOperatorAnalysis(runId: string): Promise<{ points: FRPComparisonResult[]; metrics: { bias_mw: number; mae_mw: number; rmse_mw: number; symmetric_rd_pct: number } }>;
+  getSensitivityGrid(): Promise<Array<{ spatial_km: number; temporal_min: number; candidate_count: number; ambiguous_groups: number; precision: number; recall: number; f1: number }>>;
+  getProvenanceManifest(): Promise<RawAsset[]>;
+  getCaseStudies(): Promise<CaseStudyScenario[]>;
+
+  /** @deprecated UI-era API; retained until dashboard migration is complete. */
   getHotspots(filters?: HotspotFilters): Promise<HOTSpot[]>;
   getMatches(filters?: MatchFilters): Promise<CandidateMatch[]>;
   getCalendar(year: number, month: number): Promise<CalendarDay[]>;
   getFRPRecords(hotspotId?: string): Promise<FRPRecord[]>;
   getProvenance(granuleId?: string): Promise<ProvenanceRecord[]>;
-  getCaseStudies(): Promise<CaseStudy[]>;
   getMatchMetrics(config: SensitivityConfig, filters?: MatchFilters): Promise<MatchMetrics>;
 }
+
+/** Return connected components containing more than one bipartite node. */
+export const buildAmbiguousGroups = (edges: DomainCandidateAssociation[]): string[][] => {
+  const neighbours = new Map<string, Set<string>>();
+  for (const edge of edges) {
+    const left = neighbours.get(edge.modis_observation_id) ?? new Set<string>();
+    const right = neighbours.get(edge.viirs_observation_id) ?? new Set<string>();
+    left.add(edge.viirs_observation_id);
+    right.add(edge.modis_observation_id);
+    neighbours.set(edge.modis_observation_id, left);
+    neighbours.set(edge.viirs_observation_id, right);
+  }
+  const visited = new Set<string>();
+  const groups: string[][] = [];
+  for (const start of neighbours.keys()) {
+    if (visited.has(start)) continue;
+    const stack = [start];
+    const group: string[] = [];
+    visited.add(start);
+    while (stack.length) {
+      const node = stack.pop()!;
+      group.push(node);
+      for (const neighbour of neighbours.get(node) ?? []) {
+        if (!visited.has(neighbour)) {
+          visited.add(neighbour);
+          stack.push(neighbour);
+        }
+      }
+    }
+    if (group.length > 1) groups.push(group.sort());
+  }
+  return groups;
+};
+
+export const filterCalendarByOpportunityState = (
+  cells: DailyCalendarCell[],
+  state: DomainOpportunityState,
+): DailyCalendarCell[] => cells.filter((cell) => cell.opportunity_summary_status === state);
 
 // ---------------------------------------------------------------------------
 // Mock implementation
 // ---------------------------------------------------------------------------
 
-class MockSKHRepository implements ISKHRepository {
+export class MockSKHRepository implements ISKHRepository {
+  async getObservations(params: { bbox?: number[]; startUtc?: string; endUtc?: string; sensors?: DomainSensorType[]; includeNrt?: boolean }): Promise<CommonObservation[]> {
+    let result = [...observations];
+    if (params.bbox?.length === 4) {
+      const [west, south, east, north] = params.bbox;
+      result = result.filter((item) => item.longitude >= west && item.longitude <= east && item.latitude >= south && item.latitude <= north);
+    }
+    if (params.startUtc) result = result.filter((item) => item.acquisition_time_utc >= params.startUtc!);
+    if (params.endUtc) result = result.filter((item) => item.acquisition_time_utc <= params.endUtc!);
+    if (params.sensors?.length) result = result.filter((item) => params.sensors!.includes(item.sensor));
+    // Fixtures are STANDARD; includeNrt=false is therefore naturally deterministic.
+    return result;
+  }
+
+  async getCandidateGraph(runId: string, caseId?: string): Promise<{ nodes: CommonObservation[]; edges: DomainCandidateAssociation[]; ambiguousGroups: string[][] }> {
+    let edges = candidateAssociations.filter((edge) => edge.run_id === runId);
+    if (caseId) {
+      const scenario = skhCaseStudies.find((item) => item.case_id === caseId || item.id === caseId);
+      const focusIds = new Set(scenario?.focus_observation_ids ?? []);
+      edges = edges.filter((edge) => focusIds.has(edge.modis_observation_id) && focusIds.has(edge.viirs_observation_id));
+    }
+    const nodeIds = new Set(edges.flatMap((edge) => [edge.modis_observation_id, edge.viirs_observation_id]));
+    return { nodes: observations.filter((item) => nodeIds.has(item.observation_id)), edges, ambiguousGroups: buildAmbiguousGroups(edges) };
+  }
+
+  async getBurningActivityCalendar(year: number, month?: number, gridKm?: number): Promise<DailyCalendarCell[]> {
+    const prefix = month === undefined ? `${year}-` : `${year}-${String(month).padStart(2, '0')}-`;
+    return calendarCells.filter((cell) => cell.date_utc.startsWith(prefix) && (gridKm === undefined || cell.grid_resolution_km === gridKm));
+  }
+
+  async getFRPOperatorAnalysis(_runId: string): Promise<{ points: FRPComparisonResult[]; metrics: { bias_mw: number; mae_mw: number; rmse_mw: number; symmetric_rd_pct: number } }> {
+    const pairs = frpComparisonResults.filter((point) => point.frp_operator_adjusted_mw !== null);
+    const diffs = pairs.map((point) => point.frp_operator_adjusted_mw! - point.frp_raw_mw);
+    const mean = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
+    return {
+      points: [...frpComparisonResults],
+      metrics: {
+        bias_mw: mean(diffs),
+        mae_mw: mean(diffs.map(Math.abs)),
+        rmse_mw: Math.sqrt(mean(diffs.map((value) => value ** 2))),
+        symmetric_rd_pct: mean(pairs.map((point) => 200 * Math.abs(point.frp_operator_adjusted_mw! - point.frp_raw_mw) / (point.frp_operator_adjusted_mw! + point.frp_raw_mw))),
+      },
+    };
+  }
+
+  async getSensitivityGrid() { return [...sensitivityGrid]; }
+
+  async getProvenanceManifest(): Promise<RawAsset[]> { return [...rawAssets]; }
+
   async getHotspots(filters?: HotspotFilters): Promise<HOTSpot[]> {
     let result = [...mockHotspots];
     if (filters?.sensor && filters.sensor.length > 0) {
@@ -105,8 +217,8 @@ class MockSKHRepository implements ISKHRepository {
     return mockProvenance;
   }
 
-  async getCaseStudies(): Promise<CaseStudy[]> {
-    return mockCaseStudies;
+  async getCaseStudies(): Promise<CaseStudyScenario[]> {
+    return skhCaseStudies;
   }
 
   async getMatchMetrics(config: SensitivityConfig, _filters?: MatchFilters): Promise<MatchMetrics> {
@@ -175,8 +287,36 @@ class RealSKHRepository implements ISKHRepository {
     return this.get<ProvenanceRecord[]>(`/provenance${q}`);
   }
 
-  async getCaseStudies(): Promise<CaseStudy[]> {
-    return this.get<CaseStudy[]>('/case-studies');
+  async getObservations(params: { bbox?: number[]; startUtc?: string; endUtc?: string; sensors?: DomainSensorType[]; includeNrt?: boolean }): Promise<CommonObservation[]> {
+    const query = new URLSearchParams();
+    if (params.bbox) query.set('bbox', params.bbox.join(','));
+    if (params.startUtc) query.set('start_utc', params.startUtc);
+    if (params.endUtc) query.set('end_utc', params.endUtc);
+    if (params.sensors) query.set('sensors', params.sensors.join(','));
+    if (params.includeNrt !== undefined) query.set('include_nrt', String(params.includeNrt));
+    return this.get<CommonObservation[]>(`/observations?${query}`);
+  }
+
+  async getCandidateGraph(runId: string, caseId?: string): Promise<{ nodes: CommonObservation[]; edges: DomainCandidateAssociation[]; ambiguousGroups: string[][] }> {
+    return this.get(`/candidate-graph/${encodeURIComponent(runId)}${caseId ? `?case_id=${encodeURIComponent(caseId)}` : ''}`);
+  }
+
+  async getBurningActivityCalendar(year: number, month?: number, gridKm?: number): Promise<DailyCalendarCell[]> {
+    const query = new URLSearchParams({ year: String(year) });
+    if (month !== undefined) query.set('month', String(month));
+    if (gridKm !== undefined) query.set('grid_km', String(gridKm));
+    return this.get<DailyCalendarCell[]>(`/burning-activity-calendar?${query}`);
+  }
+
+  async getFRPOperatorAnalysis(runId: string): Promise<{ points: FRPComparisonResult[]; metrics: { bias_mw: number; mae_mw: number; rmse_mw: number; symmetric_rd_pct: number } }> {
+    return this.get(`/frp-operator-analysis/${encodeURIComponent(runId)}`);
+  }
+
+  async getSensitivityGrid() { return this.get<typeof sensitivityGrid>('/sensitivity-grid'); }
+  async getProvenanceManifest(): Promise<RawAsset[]> { return this.get<RawAsset[]>('/provenance-manifest'); }
+
+  async getCaseStudies(): Promise<CaseStudyScenario[]> {
+    return this.get<CaseStudyScenario[]>('/case-studies');
   }
 
   async getMatchMetrics(config: SensitivityConfig, filters?: MatchFilters): Promise<MatchMetrics> {
