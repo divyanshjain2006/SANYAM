@@ -15,10 +15,10 @@ interface ToggleProps {
 export function Toggle({ options, value, onChange, className }: ToggleProps) {
   return (
     <div
-      className={clsx('inline-flex rounded-full p-0.5', className)}
+      className={clsx('inline-flex rounded-lg p-0.5', className)}
       style={{
-        background: 'rgba(148,163,184,0.08)',
-        border: '1px solid rgba(148,163,184,0.14)',
+        background: '#F1F5F9',
+        border: '1px solid #E2E8F0',
       }}
       role="group"
       aria-label="Toggle"
@@ -30,14 +30,14 @@ export function Toggle({ options, value, onChange, className }: ToggleProps) {
             key={opt.value}
             onClick={() => onChange(opt.value)}
             className={clsx(
-              'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer',
+              'px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer',
               isActive
-                ? 'text-[#111827]'
-                : 'text-[#94A3B8] hover:text-[#CBD5E1]'
+                ? 'text-white shadow-sm'
+                : 'text-[#64748B] hover:text-[#1E293B]'
             )}
             style={
               isActive
-                ? { background: '#F59E0B' }
+                ? { background: '#2563EB' }
                 : { background: 'transparent' }
             }
           >

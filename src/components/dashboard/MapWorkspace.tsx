@@ -308,8 +308,8 @@ export function MapWorkspace() {
       {/* ===================================================================
           1. Layer Pill Bar (Floating, Top Center)
           =================================================================== */}
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[1000] flex items-center gap-2 bg-[#192234]/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-border-soft shadow-2xl pointer-events-auto">
-        <div className="flex items-center gap-1.5 pr-2 mr-1 border-r border-border-soft text-xs text-text-body/70 font-semibold uppercase tracking-wider">
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[1000] flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-border-soft shadow-2xl pointer-events-auto">
+        <div className="flex items-center gap-1.5 pr-2 mr-1 border-r border-border-soft text-xs text-slate-600/70 font-semibold uppercase tracking-wider">
           <Layers size={13} className="text-candidate-violet" />
           <span>Layers</span>
         </div>
@@ -375,7 +375,7 @@ export function MapWorkspace() {
           2. Case Study Banner (Floating, below Pill Bar)
           =================================================================== */}
       {currentCase && (
-        <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-[999] flex items-center justify-between gap-4 px-4 py-2.5 rounded-xl bg-[#192234]/95 border border-[#F59E0B]/50 shadow-2xl backdrop-blur-md min-w-[380px] max-w-xl pointer-events-auto">
+        <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-[999] flex items-center justify-between gap-4 px-4 py-2.5 rounded-xl bg-white/95 border border-[#F59E0B]/50 shadow-2xl backdrop-blur-md min-w-[380px] max-w-xl pointer-events-auto">
           <div className="flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] animate-pulse ring-4 ring-[#F59E0B]/20" />
             <span className="text-xs sm:text-sm font-semibold text-slate-100">
@@ -498,12 +498,12 @@ export function MapWorkspace() {
       {/* ===================================================================
           4. UTC Timeline Scrubber (Floating Bottom)
           =================================================================== */}
-      <div className="absolute bottom-4 left-4 right-4 z-[990] bg-[#192234]/95 backdrop-blur-md rounded-2xl p-3.5 border border-border-soft shadow-2xl pointer-events-auto flex flex-col gap-2">
+      <div className="absolute bottom-4 left-4 right-4 z-[990] bg-white/95 backdrop-blur-md rounded-2xl p-3.5 border border-border-soft shadow-2xl pointer-events-auto flex flex-col gap-2">
         {/* Scrubber Header & Legend */}
-        <div className="flex items-center justify-between text-xs text-text-body">
+        <div className="flex items-center justify-between text-xs text-slate-600">
           <div className="flex items-center gap-2 font-medium">
             <Clock size={14} className="text-[#F59E0B]" />
-            <span className="font-semibold text-text-heading">
+            <span className="font-semibold text-slate-800">
               24-Hour Satellite Overpass Scrubber (UTC)
             </span>
             <span className="text-slate-400 hidden sm:inline">
@@ -514,11 +514,11 @@ export function MapWorkspace() {
           <div className="flex items-center gap-4 text-[11px]">
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
-              <span className="text-slate-300">MODIS (10:30, 13:30)</span>
+              <span className="text-slate-600">MODIS (10:30, 13:30)</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#22D3EE]" />
-              <span className="text-slate-300">VIIRS (00:30, 01:00, 01:30, 12:30, 13:00, 13:30)</span>
+              <span className="text-slate-600">VIIRS (00:30, 01:00, 01:30, 12:30, 13:00, 13:30)</span>
             </div>
           </div>
         </div>
@@ -604,9 +604,9 @@ export function MapWorkspace() {
         width="440px"
       >
         {selectedHotspot && (
-          <div className="flex flex-col gap-5 text-sm text-text-body pb-6">
+          <div className="flex flex-col gap-5 text-sm text-slate-600 pb-6">
             {/* Header / Primary Identifiers */}
-            <div className="p-4 rounded-xl bg-slate-900/60 border border-border-soft flex flex-col gap-3">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-3">
               <div className="flex items-center justify-between gap-2">
                 <Badge
                   variant={selectedHotspot.sensor.includes('MODIS') ? 'modis' : 'viirs'}
@@ -623,7 +623,7 @@ export function MapWorkspace() {
                 <div className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-1">
                   Granule ID
                 </div>
-                <div className="font-mono text-xs text-text-heading bg-slate-950/80 px-2.5 py-1.5 rounded-lg border border-slate-800 break-all select-text">
+                <div className="font-mono text-xs text-slate-800 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-800 break-all select-text">
                   {selectedHotspot.granuleId}
                 </div>
               </div>
@@ -631,17 +631,17 @@ export function MapWorkspace() {
 
             {/* Core Thermal & Detection Metrics */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 rounded-xl bg-slate-900/40 border border-border-soft flex flex-col gap-1">
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-1">
                 <span className="text-[11px] uppercase tracking-wider text-slate-400">
                   Brightness Temp (BT)
                 </span>
-                <span className="text-xl font-bold font-mono text-text-heading">
+                <span className="text-xl font-bold font-mono text-slate-800">
                   {selectedHotspot.brightness}{' '}
                   <span className="text-xs font-normal text-slate-400">K</span>
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-900/40 border border-border-soft flex flex-col gap-1">
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-1">
                 <span className="text-[11px] uppercase tracking-wider text-slate-400">
                   Raw Fire Radiative Power
                 </span>
@@ -651,22 +651,22 @@ export function MapWorkspace() {
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-900/40 border border-border-soft flex flex-col gap-1">
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-1">
                 <span className="text-[11px] uppercase tracking-wider text-slate-400">
                   Confidence Score
                 </span>
-                <span className="text-base font-semibold text-text-heading">
+                <span className="text-base font-semibold text-slate-800">
                   {typeof selectedHotspot.confidence === 'number'
                     ? `${selectedHotspot.confidence}%`
                     : selectedHotspot.confidence.toUpperCase()}
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-900/40 border border-border-soft flex flex-col gap-1">
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-1">
                 <span className="text-[11px] uppercase tracking-wider text-slate-400">
                   Overpass Timing
                 </span>
-                <span className="text-sm font-medium text-text-heading">
+                <span className="text-sm font-medium text-slate-800">
                   {selectedHotspot.acqDate} •{' '}
                   <span className="font-mono">
                     {selectedHotspot.acqTime.slice(0, 2)}:{selectedHotspot.acqTime.slice(2, 4)} UTC
@@ -679,7 +679,7 @@ export function MapWorkspace() {
             </div>
 
             {/* Opportunity State */}
-            <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/30 flex items-start gap-3">
+            <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-start gap-3">
               <CheckCircle2 size={18} className="text-valid-green flex-shrink-0 mt-0.5" />
               <div className="flex flex-col gap-0.5">
                 <div className="flex items-center gap-2">
@@ -688,18 +688,18 @@ export function MapWorkspace() {
                   </span>
                   <Badge variant="valid" label="✓ Valid Clear-Sky" />
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Both surface emissivity and cloud mask confirm cloud-free ground line-of-sight. Fire detection is physically observable and eligible for cross-sensor pairing.
                 </p>
               </div>
             </div>
 
             {/* Many-to-Many Bipartite Subgraph Section */}
-            <div className="flex flex-col gap-3 p-4 rounded-xl bg-slate-900/50 border border-border-soft">
+            <div className="flex flex-col gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Cpu size={15} className="text-candidate-violet" />
-                  <span className="font-semibold text-text-heading text-xs tracking-wide uppercase">
+                  <span className="font-semibold text-slate-800 text-xs tracking-wide uppercase">
                     Many-to-Many Bipartite Subgraph
                   </span>
                 </div>
@@ -708,9 +708,9 @@ export function MapWorkspace() {
 
               {selectedMatchDetails?.type === 'modis_parent' && (
                 <div className="flex flex-col gap-3">
-                  <p className="text-xs text-slate-300">
+                  <p className="text-xs text-slate-600">
                     MODIS 1-km pixel <span className="font-mono font-semibold text-modis-amber">{selectedHotspot.id}</span> associates with{' '}
-                    <span className="font-bold text-white">{selectedMatchDetails.matches.length} VIIRS 375-m pixels</span>:
+                    <span className="font-bold text-slate-800">{selectedMatchDetails.matches.length} VIIRS 375-m pixels</span>:
                   </p>
 
                   <div className="flex flex-col gap-2.5">
@@ -721,7 +721,7 @@ export function MapWorkspace() {
                       return (
                         <div
                           key={m.viirsId}
-                          className="p-3 rounded-lg bg-slate-950/80 border border-slate-800 flex flex-col gap-2"
+                          className="p-3 rounded-lg bg-white border border-slate-200 shadow-sm flex flex-col gap-2"
                         >
                           <div className="flex items-center justify-between">
                             <span className="font-mono text-xs font-bold text-viirs-cyan">
@@ -773,11 +773,11 @@ export function MapWorkspace() {
 
               {selectedMatchDetails?.type === 'viirs_child' && (
                 <div className="flex flex-col gap-3">
-                  <p className="text-xs text-slate-300">
+                  <p className="text-xs text-slate-600">
                     VIIRS 375-m pixel is nested within MODIS 1-km parent cluster:
                   </p>
 
-                  <div className="p-3 rounded-lg bg-slate-950/80 border border-slate-800 flex flex-col gap-2">
+                  <div className="p-3 rounded-lg bg-white border border-slate-200 shadow-sm flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-xs font-bold text-modis-amber">
                         Parent: {selectedMatchDetails.parentModisId}
@@ -827,7 +827,7 @@ export function MapWorkspace() {
               )}
 
               {!selectedMatchDetails && (
-                <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 text-xs text-slate-400 leading-relaxed">
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-400 leading-relaxed">
                   {selectedHotspot.sensor.includes('MODIS')
                     ? 'No coincident VIIRS detections occurred within the ±3 hour spatial-temporal window.'
                     : 'Isolated VIIRS detection during overpass; no coincident daytime MODIS pixel exceeded the local sensor detection threshold.'}
@@ -848,13 +848,18 @@ export function MapWorkspace() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono">
+                  <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold font-sans">
                     Overlap Metric Formulation:
                   </span>
-                  <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 font-mono text-xs text-viirs-cyan select-all">
-                    Os = Area(A ∩ B) / min(Area(A), Area(B))
+                  <div className="p-3 rounded-lg bg-white border border-slate-200 font-serif text-xs text-slate-800 flex items-center gap-2 shadow-sm">
+                    <span className="font-bold italic text-purple-700 text-sm">O<sub>s</sub></span>
+                    <span className="text-slate-400">=</span>
+                    <div className="inline-flex flex-col items-center text-center font-sans">
+                      <span className="border-b border-slate-700 px-2 font-semibold text-blue-800">Area(A ∩ B)</span>
+                      <span className="font-semibold text-cyan-800">min( Area(A), Area(B) )</span>
+                    </div>
                   </div>
-                  <p className="text-[11px] text-slate-300 leading-relaxed">
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
                     Normalizing by min(Area(A), Area(B)) rather than union prevents artificial penalty from the 7× areal disparity between MODIS (1 km²) and VIIRS (0.14 km²) footprint geometries.
                   </p>
                 </div>
@@ -863,7 +868,7 @@ export function MapWorkspace() {
                   <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono">
                     QA Status Flag Verification:
                   </span>
-                  <div className="text-xs font-mono text-slate-200 bg-slate-950 p-2 rounded border border-slate-800">
+                  <div className="text-xs font-mono text-slate-700 bg-slate-100 p-2 rounded border border-slate-200">
                     QA: PASS [0x00000000] — Scan angle: 14.2° (nominal, no bow-tie distortion), cloud fraction &lt; 0.05, water mask: land.
                   </div>
                 </div>

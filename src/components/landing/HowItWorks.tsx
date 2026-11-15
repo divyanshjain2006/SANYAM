@@ -1,158 +1,86 @@
 import React from 'react';
-import { ArrowRight, ArrowDown, Download, GitMerge, CalendarDays } from 'lucide-react';
+import { Database, GitMerge, FileCheck } from 'lucide-react';
 
-interface StepProps {
-  number: string;
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  tags: string[];
-}
-
-const Step: React.FC<StepProps> = ({ number, icon, title, description, tags }) => (
-  <div
-    className="flex flex-col gap-5 p-8 rounded-xl flex-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
-    style={{
-      background: '#192234',
-      border: '1px solid rgba(148,163,184,0.14)',
-    }}
-  >
-    {/* Top row with Amber Numbered Circle + Icon */}
-    <div className="flex items-center justify-between">
-      <div
-        className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-base shrink-0 shadow-md"
-        style={{
-          background: '#F59E0B',
-          color: '#0F172A',
-          boxShadow: '0 0 16px rgba(245, 158, 11, 0.3)',
-        }}
-      >
-        {number}
-      </div>
-
-      <div
-        className="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 group-hover:text-amber-400 transition-colors"
-        style={{ background: 'rgba(148,163,184,0.08)' }}
-      >
-        {icon}
-      </div>
-    </div>
-
-    <h3 className="text-xl font-bold" style={{ color: '#F8FAFC' }}>
-      {title}
-    </h3>
-
-    <p className="text-sm flex-1" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>
-      {description}
-    </p>
-
-    <div className="flex flex-wrap gap-2 mt-auto pt-3 border-t border-slate-800/80">
-      {tags.map((t) => (
-        <span
-          key={t}
-          className="px-2 py-0.5 rounded text-xs font-mono"
-          style={{
-            background: 'rgba(148,163,184,0.08)',
-            color: '#94A3B8',
-            border: '1px solid rgba(148,163,184,0.14)',
-          }}
-        >
-          {t}
-        </span>
-      ))}
-    </div>
-  </div>
-);
-
-const HowItWorks: React.FC = () => {
-  const steps: StepProps[] = [
+export const HowItWorks: React.FC = () => {
+  const steps = [
     {
-      number: '1',
-      icon: <Download className="w-5 h-5" />,
+      step: '1',
+      icon: <Database className="w-6 h-6 text-blue-600" />,
+      bg: 'bg-blue-50 border-blue-200',
       title: 'Source-Preserving Ingestion & QC',
+      subtitle: 'Native Granules + Rigorous Flags',
       description:
-        'Raw MODIS MOD14/MYD14 and VIIRS VNP14IMG, VJ114IMG, VJ214IMG granules are ingested with ' +
-        'full metadata preservation. Granule IDs, collection numbers (6.1 for MODIS, 2 for VIIRS), ' +
-        'QA flags, and processing type (Standard vs. NRT) are retained verbatim to ensure auditability ' +
-        'and reproducibility from raw archive to final matched record.',
-      tags: ['MOD14', 'MYD14', 'VNP14IMG', 'VJ114IMG', 'VJ214IMG', 'QA-flags', 'SHA-256'],
+        'Raw MODIS (MOD14/MYD14 Col 6.1) and VIIRS (VNP14IMG/VJ114IMG Col 2) granules are ingested preserving pixel coordinates, scan angles, brightness temperatures, and QA flags without lossy aggregation.',
     },
     {
-      number: '2',
-      icon: <GitMerge className="w-5 h-5" />,
+      step: '2',
+      icon: <GitMerge className="w-6 h-6 text-violet-600" />,
+      bg: 'bg-violet-50 border-violet-200',
       title: 'Observation Opportunity & Footprint Matching',
+      subtitle: 'IoU & Smaller-Footprint Overlap (Os)',
       description:
-        'Cloud fraction is assessed per granule to classify each pixel as valid clear-sky, cloud-obscured, ' +
-        'or outside swath. Actual ground footprint polygons are computed for each detection (not just ' +
-        'centroids). A many-to-many bipartite matching algorithm then pairs MODIS and VIIRS detections ' +
-        'using IoU and the Smaller-Footprint Overlap (Os) metric.',
-      tags: ['valid_area_fraction', 'cloud_obscured', 'outside_swath', 'IoU', 'Os', 'bipartite'],
+        'Computes clear-sky opportunity masks and constructs a spatiotemporal bipartite graph. Pairs nested VIIRS 375 m detections to parent MODIS 1 km footprints via geometric intersection rather than crude point-radius circles.',
     },
     {
-      number: '3',
-      icon: <CalendarDays className="w-5 h-5" />,
-      title: 'Coverage-Aware Calendar & Evidence',
+      step: '3',
+      icon: <FileCheck className="w-6 h-6 text-emerald-600" />,
+      bg: 'bg-emerald-50 border-emerald-200',
+      title: 'Coverage-Aware Synthesis & Export',
+      subtitle: 'FRP Operators & Full Cryptographic Lineage',
       description:
-        'Daily thermal activity is dual-encoded with observation-opportunity state in an interactive ' +
-        'calendar. Provenance manifests include SHA-256 file hashes for every source granule. Results ' +
-        'are exportable as GeoJSON and CSV. FRP observation operators are applied to produce ' +
-        'bias-corrected, apples-to-apples radiative power estimates across sensors.',
-      tags: ['FRP-operators', 'GeoJSON', 'CSV', 'SHA-256', 'provenance', 'calendar'],
+        'Applies sensor-specific FRP observation operators, generates dual-encoded monthly calendars, and exports verified GeoJSON, CSV, and JSON packages with SHA-256 provenance hashes.',
     },
   ];
 
   return (
-    <section className="py-20 px-6" style={{ background: 'rgba(25,34,52,0.4)' }}>
+    <section id="how-it-works" className="py-20 px-6 bg-slate-50/70 border-t border-slate-200/80">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#F59E0B' }}>
-            Pipeline
-          </p>
-          <h2 className="text-4xl font-bold" style={{ color: '#F8FAFC' }}>How It Works</h2>
-          <p className="mt-4 text-lg max-w-2xl mx-auto" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>
-            Three rigorous stages transform raw satellite granules into scientifically trustworthy matched hotspot pairs.
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-3">
+            Workflow Architecture
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            3 Simple Steps for Effortless Harmonization
+          </h2>
+          <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+            From raw NASA telemetry to publication-grade, cross-sensor reconciled fire intelligence.
           </p>
         </div>
 
-        {/* Steps row with arrow connectors */}
-        <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-4">
-          {steps.map((step, idx) => (
-            <React.Fragment key={step.number}>
-              <Step {...step} />
-              {idx < steps.length - 1 && (
-                <>
-                  {/* Desktop arrow connector (horizontal) */}
-                  <div className="hidden md:flex items-center justify-center shrink-0 self-center px-1">
-                    <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center border transition-transform duration-300 hover:scale-110 shadow-sm"
-                      style={{
-                        background: '#192234',
-                        borderColor: 'rgba(245, 158, 11, 0.4)',
-                        color: '#F59E0B',
-                      }}
-                      title="Next Stage"
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+          {steps.map((s) => (
+            <div
+              key={s.step}
+              className="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md transition-all relative flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${s.bg}`}>
+                    {s.icon}
                   </div>
+                  <span className="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm flex items-center justify-center">
+                    {s.step}
+                  </span>
+                </div>
 
-                  {/* Mobile arrow connector (pointing down) */}
-                  <div className="flex md:hidden items-center justify-center py-2 self-center">
-                    <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center border shadow-sm"
-                      style={{
-                        background: '#192234',
-                        borderColor: 'rgba(245, 158, 11, 0.4)',
-                        color: '#F59E0B',
-                      }}
-                      title="Next Stage"
-                    >
-                      <ArrowDown className="w-4 h-4" />
-                    </div>
-                  </div>
-                </>
-              )}
-            </React.Fragment>
+                <div className="text-[11px] font-semibold text-blue-600 uppercase tracking-wider mb-1">
+                  {s.subtitle}
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">
+                  {s.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {s.description}
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-slate-100 mt-5">
+                <span className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  Automated Pipeline Stage
+                </span>
+              </div>
+            </div>
           ))}
         </div>
       </div>

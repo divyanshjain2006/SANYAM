@@ -13,20 +13,20 @@ export function AppLayout({ children, activeTab, onTabChange }: AppLayoutProps) 
   return (
     <div
       className="min-h-screen relative"
-      style={{ background: '#111827' }}
+      style={{ background: '#F1F5F9' }}
     >
-      {/* Top bar — fixed, 56px */}
+      {/* Top bar — fixed, 64px */}
       <TopBar />
 
-      {/* Side rail — fixed, starts at 56px */}
+      {/* Side rail — fixed, starts at 64px, 220px wide */}
       <SideRail activeTab={activeTab} onTabChange={onTabChange} />
 
       {/* Main content — offset for top bar + side rail */}
       <main
         className="min-h-screen overflow-y-auto"
         style={{
-          paddingTop: '56px',
-          paddingLeft: '60px',
+          paddingTop: '64px',
+          paddingLeft: '220px',
         }}
       >
         {children}

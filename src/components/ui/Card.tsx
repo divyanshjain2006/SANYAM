@@ -10,10 +10,10 @@ interface CardProps {
 export function Card({ children, className, style }: CardProps) {
   return (
     <div
-      className={clsx('rounded-xl p-6', className)}
+      className={clsx('rounded-xl p-6 shadow-sm', className)}
       style={{
-        background: '#192234',
-        border: '1px solid rgba(148,163,184,0.14)',
+        background: '#FFFFFF',
+        border: '1px solid #E2E8F0',
         ...style,
       }}
     >

@@ -134,7 +134,7 @@ export default function CalendarWorkspace() {
             <span className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
               <CalendarIcon className="w-5 h-5" />
             </span>
-            <h1 className="text-2xl font-bold tracking-tight text-[#F8FAFC]">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-800">
               Coverage-Aware Burning-Activity Calendar
             </h1>
           </div>
@@ -200,7 +200,7 @@ export default function CalendarWorkspace() {
           {/* Navigation Bar */}
           <div className="flex items-center justify-between bg-slate-900/70 border border-slate-800 px-4 py-3 rounded-xl">
             <div className="flex items-center gap-3">
-              <h2 className="text-xl font-bold tracking-tight text-[#F8FAFC]">
+              <h2 className="text-xl font-bold tracking-tight text-slate-800">
                 {MONTH_NAMES[currentMonth - 1]} {currentYear}
               </h2>
               {currentYear !== 2023 || currentMonth !== 10 ? (
@@ -238,7 +238,7 @@ export default function CalendarWorkspace() {
           </div>
 
           {/* 7-Column Calendar Grid Container */}
-          <div className="p-4 rounded-xl bg-[#192234] border border-[rgba(148,163,184,0.14)] shadow-md">
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-md">
             {/* Weekday Headers */}
             <div className="grid grid-cols-7 gap-2 mb-2">
               {DAY_NAMES.map((day) => (
@@ -282,7 +282,7 @@ export default function CalendarWorkspace() {
                       backgroundColor: cellBg,
                       border: isSelected
                         ? '2px solid #F59E0B'
-                        : '1px solid rgba(148,163,184,0.1)',
+                        : '1px solid rgba(226,232,240,0.8)',
                       boxShadow: isSelected
                         ? '0 0 14px rgba(245, 158, 11, 0.45)'
                         : undefined,
@@ -292,7 +292,7 @@ export default function CalendarWorkspace() {
                     <div className="flex items-center justify-between w-full">
                       <span
                         className={`text-xs font-medium leading-none ${
-                          count >= 9 ? 'text-slate-950 font-bold' : 'text-[#CBD5E1]'
+                          count >= 9 ? 'text-slate-950 font-bold' : 'text-slate-600'
                         }`}
                       >
                         {dayNum}
@@ -371,7 +371,7 @@ export default function CalendarWorkspace() {
               <div className="flex items-center gap-2">
                 <span
                   className="w-4 h-4 rounded"
-                  style={{ backgroundColor: '#1E293B', border: '1px solid rgba(148,163,184,0.3)' }}
+                  style={{ backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1' }}
                 />
                 <span>0 fires</span>
               </div>
@@ -424,14 +424,14 @@ export default function CalendarWorkspace() {
 
         {/* Right Side: Daily Breakdown Panel (w-80, hidden when no selection) */}
         {selectedDayData && (
-          <aside className="w-full lg:w-80 flex-shrink-0 bg-[#192234] border border-slate-800 rounded-xl p-5 flex flex-col gap-5 text-slate-200 shadow-xl transition-all">
+          <aside className="w-full lg:w-80 flex-shrink-0 bg-white border border-slate-800 rounded-xl p-5 flex flex-col gap-5 text-slate-200 shadow-xl transition-all">
             {/* Header */}
             <div className="flex items-start justify-between pb-3 border-b border-slate-800">
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">
                   Daily Observation Breakdown
                 </span>
-                <h3 className="text-lg font-bold text-[#F8FAFC]">
+                <h3 className="text-lg font-bold text-slate-800">
                   {formatDisplayDate(selectedDayData.date)}
                 </h3>
                 <span className="text-xs text-slate-400 font-mono">{selectedDayData.date}</span>
@@ -452,7 +452,7 @@ export default function CalendarWorkspace() {
                 Thermal Activity
               </span>
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-extrabold text-[#F8FAFC]">
+                <span className="text-3xl font-extrabold text-slate-800">
                   {selectedDayData.thermalActivityCount}
                 </span>
                 {selectedDayData.thermalActivityCount > 0 ? (

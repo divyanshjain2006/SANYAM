@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'amber';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -12,15 +12,17 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-[#F59E0B] text-[#111827] font-semibold hover:bg-[#D97706] active:bg-[#B45309]',
+    'bg-blue-600 text-white font-semibold hover:bg-blue-700 active:bg-blue-800 shadow-sm',
+  amber:
+    'bg-amber-500 text-slate-900 font-semibold hover:bg-amber-600 active:bg-amber-700 shadow-sm',
   secondary:
-    'bg-transparent text-[#F59E0B] border border-[#F59E0B] hover:bg-[rgba(245,158,11,0.1)] active:bg-[rgba(245,158,11,0.2)]',
+    'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 active:bg-slate-100 shadow-sm',
   ghost:
-    'bg-transparent text-[#CBD5E1] hover:bg-[rgba(148,163,184,0.1)] active:bg-[rgba(148,163,184,0.2)]',
+    'bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 active:bg-slate-200',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'px-3 py-1.5 text-sm rounded-lg',
+  sm: 'px-3 py-1.5 text-xs rounded-lg',
   md: 'px-4 py-2 text-sm rounded-xl',
   lg: 'px-6 py-3 text-base rounded-xl',
 };
@@ -35,7 +37,7 @@ export function Button({
   return (
     <button
       className={clsx(
-        'inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
         variantClasses[variant],
         sizeClasses[size],
         className

@@ -1,107 +1,72 @@
-import React from 'react';
+import { Microscope, ShieldAlert, Trees } from 'lucide-react';
 
-interface PersonaCardProps {
-  emoji: string;
-  title: string;
-  bullets: [string, string, string];
-  accentColor: string;
-}
-
-const PersonaCard: React.FC<PersonaCardProps> = ({ emoji, title, bullets, accentColor }) => (
-  <div
-    className="flex flex-col gap-5 p-7 rounded-xl h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
-    style={{
-      background: '#192234',
-      border: '1px solid rgba(148,163,184,0.14)',
-      borderTop: `3px solid ${accentColor}`,
-    }}
-  >
-    <div
-      className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shrink-0 transition-transform duration-300 group-hover:scale-105"
-      style={{
-        background: `${accentColor}18`,
-        border: `1px solid ${accentColor}35`,
-      }}
-    >
-      <span role="img" aria-label={title}>{emoji}</span>
-    </div>
-    <h3 className="text-xl font-bold" style={{ color: '#F8FAFC' }}>
-      {title}
-    </h3>
-    <ul className="flex flex-col gap-2.5 mt-1 flex-1">
-      {bullets.map((bullet, idx) => (
-        <li key={idx} className="flex items-start gap-2.5 text-sm" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>
-          <span
-            className="mt-2 shrink-0 w-1.5 h-1.5 rounded-full"
-            style={{ background: accentColor }}
-          />
-          <span>{bullet}</span>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
-
-const WhoIsItFor: React.FC = () => {
-  const personas: PersonaCardProps[] = [
+export const WhoIsItFor = () => {
+  const personas = [
     {
-      emoji: '🔬',
-      title: 'Scientists & Researchers',
-      bullets: [
-        'Per-detection QA flags, granule IDs, and collection 6.1/2 provenance for complete reproducibility',
-        'IoU and Smaller-Footprint Overlap (Os) metrics for quantitative cross-sensor spatial agreement',
-        'FRP observation operators for bias-corrected cross-sensor fire radiative energy studies',
-      ],
-      accentColor: '#A78BFA', // Violet
+      icon: <Microscope className="w-6 h-6 text-indigo-600" />,
+      bg: 'bg-indigo-50 border-indigo-200',
+      role: 'Remote Sensing Scientists',
+      goal: 'Conduct robust multi-decadal fire trend studies',
+      highlight: 'Full provenance, SHA-256 hashes, IoU bipartite metrics, and raw QA flag transparency in Researcher View.',
     },
     {
-      emoji: '🚒',
-      title: 'Emergency Responders',
-      bullets: [
-        'Near-real-time active fire locations paired with precise satellite overpass timestamps',
-        'Granule observation opportunity status — immediately know when cloud decks mask active burning',
-        'Clear distinction between confirmed fires, cloud-obscured zones, and unobserved areas',
-      ],
-      accentColor: '#F87171', // Red
+      icon: <Trees className="w-6 h-6 text-emerald-600" />,
+      bg: 'bg-emerald-50 border-emerald-200',
+      role: 'Fire & Forest Land Managers',
+      goal: 'Understand true regional burning regimes and crop residue schedules',
+      highlight: 'Plain-English burning calendars, cloud-obscured day warnings, and cluster boundaries in Story View.',
     },
     {
-      emoji: '🌲',
-      title: 'Fire & Land Managers',
-      bullets: [
-        'Multi-year burning activity calendar dual-encoded with satellite observation opportunity',
-        'Seasonal fire regimes with valid non-detection days explicitly separated from missing data',
-        'Export-ready GeoJSON/CSV datasets for seamless integration into GIS workflows and reporting',
-      ],
-      accentColor: '#F59E0B', // Amber
-    },
-    {
-      emoji: '🎓',
-      title: 'Students & Educators',
-      bullets: [
-        'Interactive real-world case studies with step-by-step visual explanations of satellite anomalies',
-        'Accessible scientific FAQ detailing resolution mismatches, detection limits, and FRP operators',
-        'Transparent end-to-end pipeline tracing raw orbital granules down to matched hotspot pairs',
-      ],
-      accentColor: '#22D3EE', // Cyan
+      icon: <ShieldAlert className="w-6 h-6 text-amber-600" />,
+      bg: 'bg-amber-50 border-amber-200',
+      role: 'Emergency Responders & Policy Analysts',
+      goal: 'Verify wildfire spread without confusion between satellite products',
+      highlight: 'Single-source harmonized active-fire footprints ready for evacuation planning and smoke dispersion models.',
     },
   ];
 
   return (
-    <section className="py-20 px-6" style={{ background: '#111827' }}>
+    <section id="our-users" className="py-20 px-6 bg-white border-t border-slate-100">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#F59E0B' }}>
-            Audience
-          </p>
-          <h2 className="text-4xl font-bold" style={{ color: '#F8FAFC' }}>Who Is It For</h2>
-          <p className="mt-4 text-lg max-w-2xl mx-auto" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>
-            SANYAM is built for everyone who needs to trust their fire data — from emergency incident commanders to academic researchers.
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 mb-3">
+            Target Users
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Who Is SANYAM Built For?
+          </h2>
+          <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+            From climate researchers needing cryptographic data lineage to field managers requiring instant situational clarity.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {personas.map((p) => (
-            <PersonaCard key={p.title} {...p} />
+            <div
+              key={p.role}
+              className="p-6 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:shadow-lg transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center border mb-4 ${p.bg}`}>
+                  {p.icon}
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">
+                  {p.role}
+                </h3>
+                <div className="text-xs font-medium text-blue-600 mt-1 mb-3">
+                  {p.goal}
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {p.highlight}
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-slate-200/60 mt-5">
+                <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                  Persona View Supported
+                </span>
+              </div>
+            </div>
           ))}
         </div>
       </div>

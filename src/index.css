@@ -2,12 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
+:root { color-scheme: light; }
 body {
-  background-color: #111827;
-  color: #CBD5E1;
+  background-color: #F1F5F9;
+  color: #1E293B;
   line-height: 1.65;
   font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
   margin: 0;
 }
 * { box-sizing: border-box; }
+
+/* Scrollbar — light theme */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #F1F5F9; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+/* Map tiles stay dark regardless of theme */
+.leaflet-container { background: #0f172a; }
+

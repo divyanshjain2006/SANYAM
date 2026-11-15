@@ -40,15 +40,15 @@ export function SensorPill({ sensor, size = 'sm', className }: SensorPillProps) 
         'inline-flex items-center font-medium font-mono rounded-full border transition-colors',
         size === 'xs' ? 'px-2 py-0.5 text-[10px]' : 'px-2.5 py-0.5 text-xs',
         isModis
-          ? 'bg-amber-500/10 text-[#F59E0B] border-amber-500/30'
-          : 'bg-cyan-500/10 text-[#22D3EE] border-cyan-500/30',
+          ? 'bg-amber-50 text-amber-800 border-amber-200'
+          : 'bg-cyan-50 text-cyan-800 border-cyan-200',
         className
       )}
     >
       <span
         className={clsx(
           'w-1.5 h-1.5 rounded-full mr-1.5',
-          isModis ? 'bg-[#F59E0B]' : 'bg-[#22D3EE]'
+          isModis ? 'bg-amber-500' : 'bg-cyan-500'
         )}
       />
       {label}

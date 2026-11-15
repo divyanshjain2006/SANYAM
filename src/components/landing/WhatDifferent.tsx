@@ -1,104 +1,92 @@
 import React from 'react';
-import { Network, GitMerge, FlaskConical } from 'lucide-react';
+import { Eye, Network, Cpu, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-interface PillarProps {
-  number: string;
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}
-
-const Pillar: React.FC<PillarProps> = ({ number, icon, title, description }) => (
-  <div
-    className="relative flex flex-col gap-5 p-8 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-500/5 group"
-    style={{
-      background: '#192234',
-      border: '1px solid rgba(148,163,184,0.14)',
-      borderTop: '4px solid #A78BFA',
-    }}
-  >
-    <div className="flex items-start justify-between">
-      <div
-        className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
-        style={{
-          background: 'rgba(167, 139, 250, 0.15)',
-          border: '1px solid rgba(167, 139, 250, 0.3)',
-          color: '#A78BFA',
-        }}
-      >
-        {icon}
-      </div>
-      <span
-        className="font-mono text-5xl font-bold select-none tracking-tight"
-        style={{ color: '#22D3EE', opacity: 0.3, lineHeight: 1 }}
-      >
-        {number}
-      </span>
-    </div>
-    <div
-      className="h-0.5 w-10 rounded-full"
-      style={{ background: '#A78BFA' }}
-    />
-    <h3 className="text-xl font-bold" style={{ color: '#F8FAFC' }}>
-      {title}
-    </h3>
-    <p className="text-sm md:text-base" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>
-      {description}
-    </p>
-  </div>
-);
-
-const WhatDifferent: React.FC = () => {
-  const pillars: PillarProps[] = [
+export const WhatDifferent: React.FC = () => {
+  const pillars = [
     {
-      number: '01',
-      icon: <Network className="w-6 h-6" />,
+      icon: <Eye className="w-6 h-6 text-emerald-600" />,
+      bg: 'bg-emerald-50 border-emerald-200',
+      tag: 'Coverage Awareness',
       title: 'Observation-Opportunity Layer',
       description:
-        'For every sensor granule, SANYAM computes valid_area_fraction, cloud_obscured_fraction, ' +
-        'and outside_swath_fraction over any region of interest. This turns "no data" from an ' +
-        'ambiguous absence into a precisely classified observation state — essential for unbiased ' +
-        'fire-frequency statistics and trend analysis.',
+        'Every grid cell and day carries an explicit observation state: Valid Clear-Sky (green), Cloud-Obscured (slate), or Outside Swath. A day with 0 fires under 95% cloud cover is flagged as unobserved — never falsely logged as fire-free.',
+      benefit: 'Eliminates false fire-free claims caused by monsoon and overcast skies.',
     },
     {
-      number: '02',
-      icon: <GitMerge className="w-6 h-6" />,
+      icon: <Network className="w-6 h-6 text-blue-600" />,
+      bg: 'bg-blue-50 border-blue-200',
+      tag: 'Spatial Precision',
       title: 'Footprint-Aware Many-to-Many Matching',
       description:
-        'Instead of naive nearest-centroid matching, SANYAM computes actual ground footprint polygons ' +
-        'for each detection and runs bipartite subgraph matching across sensor pairs. Two overlap metrics ' +
-        'capture spatial agreement: IoU (Intersection over Union) and Os (Smaller-Footprint Overlap) — ' +
-        'Os being especially informative for asymmetric MODIS/VIIRS pairs where IoU is structurally small.',
+        'Replaces naive centroid distance thresholds with actual ground footprint geometry (skewed off-nadir polygons) and the Smaller-Footprint Overlap (Os) metric. Accurately links 1 broad MODIS footprint to multiple VIIRS sub-pixels.',
+      benefit: 'Accurately pairs nested sub-pixel fires without duplicate counting.',
     },
     {
-      number: '03',
-      icon: <FlaskConical className="w-6 h-6" />,
+      icon: <Cpu className="w-6 h-6 text-amber-600" />,
+      bg: 'bg-amber-50 border-amber-200',
+      tag: 'Physical Calibration',
       title: 'Sensor-Aware FRP Observation Operators',
       description:
-        'Raw FRP cannot be compared across sensors without correction. SANYAM applies observation operators ' +
-        'that account for pixel area, per-sensor detection limits Dp (5.7 MW MODIS vs. 1–3 MW VIIRS), ' +
-        'and day/night sensitivity differences. The result is a corrected, apples-to-apples FRP estimate ' +
-        'suitable for quantitative fire radiative energy studies.',
+        'Adjusts raw Fire Radiative Power (MW) against sensor detection limit curves (Dp), diurnal burning cycles between Terra (~10:30) and Aqua (~13:30), and off-nadir pixel broadening for dependable emissions estimation.',
+      benefit: 'Bridges raw sensor energy differences into an absolute physical metric.',
     },
   ];
 
   return (
-    <section className="py-20 px-6" style={{ background: 'rgba(25,34,52,0.4)' }}>
+    <section className="py-20 px-6 bg-slate-50/70 border-t border-slate-200/80">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#22D3EE' }}>
-            The Approach
-          </p>
-          <h2 className="text-4xl font-bold" style={{ color: '#F8FAFC' }}>What Makes SANYAM Different</h2>
-          <p className="mt-4 text-lg max-w-2xl mx-auto" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>
-            Three methodological pillars that go beyond existing fire data portals.
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-3">
+            Harmonization Engine
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            What Makes SANYAM Different?
+          </h2>
+          <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+            Conventional tools simply superimpose dots on a map. SANYAM is a physics-informed harmonization system built around three foundational innovations.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {pillars.map((p) => (
-            <Pillar key={p.number} {...p} />
+            <div
+              key={p.title}
+              className="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+            >
+              <div>
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center border mb-5 ${p.bg}`}>
+                  {p.icon}
+                </div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                  {p.tag}
+                </span>
+                <h3 className="text-lg font-bold text-slate-900 mt-1 mb-3">
+                  {p.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  {p.description}
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-slate-100 mt-2">
+                <div className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+                  <span>{p.benefit}</span>
+                </div>
+              </div>
+            </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Link
+            to="/dashboard"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors no-underline"
+          >
+            <span>Test These Capabilities in the Dashboard</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </section>

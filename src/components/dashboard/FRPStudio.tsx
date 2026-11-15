@@ -63,9 +63,9 @@ export function FRPStudio() {
   // Chart 3: Detection Limit Curves
   // Generate data points for pixelArea 0.05 to 1.5 km² (25 points)
   // MODIS_DAY: Dp = 5.7 * sqrt(a / 1.0)
-  // MODIS_NIGHT: Dp = 17.0 * sqrt(a / 1.0)
+  // MODIS_NIGHT: Dp = 1.5 * sqrt(a / 1.0)
   // VIIRS_DAY: Dp = 1.5 * sqrt(a / 0.141)
-  // VIIRS_NIGHT: Dp = 4.5 * sqrt(a / 0.141)
+  // VIIRS_NIGHT: Dp = 0.4 * sqrt(a / 0.141)
   const detectionLimitData = useMemo(() => {
     const points = [];
     const count = 25;
@@ -75,9 +75,9 @@ export function FRPStudio() {
     for (let i = 0; i <= count; i++) {
       const a = Number((minA + (i / count) * (maxA - minA)).toFixed(3));
       const modisDay = Number((5.7 * Math.sqrt(a / 1.0)).toFixed(2));
-      const modisNight = Number((17.0 * Math.sqrt(a / 1.0)).toFixed(2));
+      const modisNight = Number((1.5 * Math.sqrt(a / 1.0)).toFixed(2));
       const viirsDay = Number((1.5 * Math.sqrt(a / 0.141)).toFixed(2));
-      const viirsNight = Number((4.5 * Math.sqrt(a / 0.141)).toFixed(2));
+      const viirsNight = Number((0.4 * Math.sqrt(a / 0.141)).toFixed(2));
 
       points.push({
         pixelArea: a,
@@ -122,23 +122,23 @@ export function FRPStudio() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Top Banner / Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[rgba(148,163,184,0.14)]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[rgba(245,158,11,0.15)] text-[#F59E0B]">
+            <div className="p-1.5 rounded-lg bg-amber-50 text-[#F59E0B]">
               <Flame className="w-5 h-5" />
             </div>
-            <h1 className="text-2xl font-bold text-[#F8FAFC]">
+            <h1 className="text-2xl font-bold text-slate-800">
               FRP Harmonization Studio
             </h1>
           </div>
-          <p className="text-sm text-[#94A3B8] mt-1">
+          <p className="text-sm text-slate-400 mt-1">
             Analyzing raw vs sensor-adjusted Fire Radiative Power (MW) and cross-sensor detection thresholds across MODIS & VIIRS.
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start md:self-auto">
-          <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-[#192234] border border-[rgba(148,163,184,0.2)] text-[#CBD5E1] flex items-center gap-1.5">
+          <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-white border border-slate-200 text-slate-600 flex items-center gap-1.5">
             <span
               className="w-2 h-2 rounded-full"
               style={{
@@ -156,17 +156,17 @@ export function FRPStudio() {
         <div
           className="rounded-xl p-5 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h2 className="text-base font-semibold text-[#F8FAFC] flex items-center gap-2">
+              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-2">
                 <Activity className="w-4 h-4 text-[#F59E0B]" />
                 Raw vs Adjusted FRP Scatter
               </h2>
-              <p className="text-xs text-[#94A3B8] mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 Evaluates sensor-level point spread against identity baseline
               </p>
             </div>
@@ -183,19 +183,19 @@ export function FRPStudio() {
           <div className="w-full h-[300px]">
             <ResponsiveContainer width="100%" height={300}>
               <ScatterChart margin={{ top: 10, right: 20, bottom: 20, left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.1)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
                 <XAxis
                   type="number"
                   dataKey="rawFRP"
                   name="Raw FRP"
                   unit=" MW"
-                  stroke="#64748B"
+                  stroke="#94A3B8"
                   fontSize={12}
                   label={{
                     value: 'Raw FRP (MW)',
                     position: 'insideBottom',
                     offset: -10,
-                    fill: '#64748B',
+                    fill: '#94A3B8',
                     fontSize: 12,
                   }}
                 />
@@ -204,14 +204,14 @@ export function FRPStudio() {
                   dataKey="adjustedFRP"
                   name="Adj FRP"
                   unit=" MW"
-                  stroke="#64748B"
+                  stroke="#94A3B8"
                   fontSize={12}
                   label={{
                     value: 'Adjusted FRP (MW)',
                     angle: -90,
                     position: 'insideLeft',
                     offset: 5,
-                    fill: '#64748B',
+                    fill: '#94A3B8',
                     fontSize: 12,
                   }}
                 />
@@ -224,9 +224,9 @@ export function FRPStudio() {
                         <div
                           className="rounded-lg p-2.5 shadow-xl text-xs space-y-1"
                           style={{
-                            background: '#192234',
-                            border: '1px solid rgba(148,163,184,0.25)',
-                            color: '#F8FAFC',
+                            background: '#FFFFFF',
+                            border: '1px solid #E2E8F0',
+                            color: '#1E293B',
                           }}
                         >
                           <div className="font-semibold text-sm flex items-center justify-between gap-3">
@@ -237,11 +237,11 @@ export function FRPStudio() {
                             >
                               {data.sensor} ({data.dayNight === 'D' ? 'Day' : 'Night'})
                             </span>
-                            <span className="text-[#94A3B8] font-mono text-[10px]">
+                            <span className="text-slate-400 font-mono text-[10px]">
                               ID: {data.id}
                             </span>
                           </div>
-                          <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-[#CBD5E1] pt-1 border-t border-[rgba(148,163,184,0.15)]">
+                          <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-slate-600 pt-1 border-t border-slate-200">
                             <span>Raw FRP:</span>
                             <span className="font-mono text-right font-medium">
                               {data.rawFRP} MW
@@ -272,10 +272,10 @@ export function FRPStudio() {
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-2 text-xs text-[#94A3B8] flex items-center justify-between border-t border-[rgba(148,163,184,0.1)] pt-2">
+          <div className="mt-2 text-xs text-slate-400 flex items-center justify-between border-t border-slate-100 pt-2">
             <span>MODIS Samples: {modisData.length}</span>
             <span>VIIRS Samples: {viirsData.length}</span>
-            <span className="text-[#CBD5E1]">Adjusted calibration ratio ~1.05×</span>
+            <span className="text-slate-600">Adjusted calibration ratio ~1.05×</span>
           </div>
         </div>
 
@@ -283,17 +283,17 @@ export function FRPStudio() {
         <div
           className="rounded-xl p-5 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h2 className="text-base font-semibold text-[#F8FAFC] flex items-center gap-2">
+              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-[#22D3EE]" />
                 FRP Distribution Histogram
               </h2>
-              <p className="text-xs text-[#94A3B8] mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 Fire detection count binned by radiative intensity (MW)
               </p>
             </div>
@@ -313,37 +313,37 @@ export function FRPStudio() {
                 data={histogramData}
                 margin={{ top: 10, right: 20, bottom: 20, left: 10 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.1)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
                 <XAxis
                   dataKey="bin"
-                  stroke="#64748B"
+                  stroke="#94A3B8"
                   fontSize={12}
                   label={{
                     value: 'FRP Range (MW)',
                     position: 'insideBottom',
                     offset: -10,
-                    fill: '#64748B',
+                    fill: '#94A3B8',
                     fontSize: 12,
                   }}
                 />
                 <YAxis
-                  stroke="#64748B"
+                  stroke="#94A3B8"
                   fontSize={12}
                   label={{
                     value: 'Detections Count',
                     angle: -90,
                     position: 'insideLeft',
                     offset: 5,
-                    fill: '#64748B',
+                    fill: '#94A3B8',
                     fontSize: 12,
                   }}
                 />
                 <Tooltip
-                  cursor={{ fill: 'rgba(148,163,184,0.06)' }}
+                  cursor={{ fill: 'rgba(0,0,0,0.04)' }}
                   contentStyle={{
-                    background: '#192234',
-                    border: '1px solid rgba(148,163,184,0.2)',
-                    color: '#F8FAFC',
+                    background: '#FFFFFF',
+                    border: '1px solid #E2E8F0',
+                    color: '#1E293B',
                     borderRadius: '8px',
                     fontSize: '12px',
                   }}
@@ -367,7 +367,7 @@ export function FRPStudio() {
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-2 text-xs text-[#94A3B8] flex items-center justify-between border-t border-[rgba(148,163,184,0.1)] pt-2">
+          <div className="mt-2 text-xs text-slate-400 flex items-center justify-between border-t border-slate-100 pt-2">
             <span>Peak VIIRS Density: 0–25 MW</span>
             <span>Peak MODIS Density: 10–50 MW</span>
             <span className="text-[#34D399]">High-res VIIRS captures low-FRP fires</span>
@@ -379,17 +379,17 @@ export function FRPStudio() {
       <div
         className="rounded-xl p-5"
         style={{
-          background: '#192234',
-          border: '1px solid rgba(148,163,184,0.14)',
+          background: '#FFFFFF',
+          border: '1px solid #E2E8F0',
         }}
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div>
-            <h2 className="text-base font-semibold text-[#F8FAFC] flex items-center gap-2">
+            <h2 className="text-base font-semibold text-slate-800 flex items-center gap-2">
               <Zap className="w-4 h-4 text-[#A78BFA]" />
               Theoretical Sensor Detection Limit Curves (Dₚ vs Pixel Area)
             </h2>
-            <p className="text-xs text-[#94A3B8] mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               Minimum Fire Radiative Power (MW) required for positive detection as scan angle expands instantaneous pixel area (Aₚ)
             </p>
           </div>
@@ -415,22 +415,22 @@ export function FRPStudio() {
               data={detectionLimitData}
               margin={{ top: 20, right: 30, bottom: 25, left: 10 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.1)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
               <XAxis
                 dataKey="pixelArea"
-                stroke="#64748B"
+                stroke="#94A3B8"
                 fontSize={12}
                 unit=" km²"
                 label={{
                   value: 'Ground Pixel Area Aₚ (km²)',
                   position: 'insideBottom',
                   offset: -12,
-                  fill: '#64748B',
+                  fill: '#94A3B8',
                   fontSize: 12,
                 }}
               />
               <YAxis
-                stroke="#64748B"
+                stroke="#94A3B8"
                 fontSize={12}
                 unit=" MW"
                 domain={[0, 25]}
@@ -439,15 +439,15 @@ export function FRPStudio() {
                   angle: -90,
                   position: 'insideLeft',
                   offset: 5,
-                  fill: '#64748B',
+                  fill: '#94A3B8',
                   fontSize: 12,
                 }}
               />
               <Tooltip
                 contentStyle={{
-                  background: '#192234',
-                  border: '1px solid rgba(148,163,184,0.2)',
-                  color: '#F8FAFC',
+                  background: '#FFFFFF',
+                  border: '1px solid #E2E8F0',
+                  color: '#1E293B',
                   borderRadius: '8px',
                   fontSize: '12px',
                 }}
@@ -519,7 +519,7 @@ export function FRPStudio() {
         </div>
 
         {/* Persona adaptive explanation under Chart 3 */}
-        <div className="mt-4 pt-3 border-t border-[rgba(148,163,184,0.14)]">
+        <div className="mt-4 pt-3 border-t border-slate-200">
           {persona === 'scientist' ? (
             <div className="p-3.5 rounded-lg bg-[rgba(167,139,250,0.08)] border border-[rgba(167,139,250,0.25)] flex items-start gap-3">
               <Info className="w-5 h-5 text-[#A78BFA] shrink-0 mt-0.5" />
@@ -528,12 +528,12 @@ export function FRPStudio() {
                   <span className="text-xs font-semibold text-[#A78BFA] uppercase tracking-wide">
                     Analytical Physical Formula
                   </span>
-                  <code className="text-xs font-mono px-2 py-0.5 rounded bg-[rgba(15,23,42,0.6)] text-[#F8FAFC] border border-[rgba(167,139,250,0.3)]">
+                  <code className="text-xs font-mono px-2 py-0.5 rounded bg-[rgba(15,23,42,0.6)] text-slate-800 border border-[rgba(167,139,250,0.3)]">
                     Dₚ = 5.7 × √(Aₚ / A_ref) [MW]
                   </code>
                 </div>
-                <p className="text-xs text-[#CBD5E1] leading-relaxed">
-                  Theoretical minimum detectable Fire Radiative Power (MW) scales with the square root of instantaneous ground pixel area <span className="font-mono text-[#F8FAFC]">Aₚ</span>. For MODIS, off-nadir scan distortion causes pixel area expansion from 1.0 km² up to ~4.8 km² at swath edge, raising detection threshold from 5.7 MW to &gt;12 MW. VIIRS 375m pixel aggregation constrains scan expansion to ~2× (0.141 km² to ~0.3 km²), preserving sub-2 MW daytime detection sensitivity across nearly the full 3040 km swath.
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Theoretical minimum detectable Fire Radiative Power (MW) scales with the square root of instantaneous ground pixel area <span className="font-mono text-slate-800">Aₚ</span>. For MODIS, off-nadir scan distortion causes pixel area expansion from 1.0 km² up to ~4.8 km² at swath edge, raising detection threshold from 5.7 MW to &gt;12 MW. VIIRS 375m pixel aggregation constrains scan expansion to ~2× (0.141 km² to ~0.3 km²), preserving sub-2 MW daytime detection sensitivity across nearly the full 3040 km swath.
                 </p>
               </div>
             </div>
@@ -544,10 +544,10 @@ export function FRPStudio() {
                 <span className="text-xs font-semibold text-[#22D3EE] uppercase tracking-wide">
                   Executive Operational Takeaway
                 </span>
-                <p className="text-sm font-medium text-[#F8FAFC]">
+                <p className="text-sm font-medium text-slate-800">
                   VIIRS detects fires 4× smaller than MODIS can see.
                 </p>
-                <p className="text-xs text-[#CBD5E1] leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Small crop-residue burns (1.5 to 5.0 MW) will frequently trigger VIIRS alerts while remaining completely invisible to MODIS. SANYAM harmonizes these differences so zero detections in MODIS are never misinterpreted as the absence of fire.
                 </p>
               </div>
@@ -562,25 +562,25 @@ export function FRPStudio() {
         <div
           className="rounded-xl p-4 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
-          <div className="flex items-center justify-between text-[#94A3B8] text-xs">
+          <div className="flex items-center justify-between text-slate-400 text-xs">
             <span>Mean Bias</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(148,163,184,0.1)]">
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(226,232,240,0.8)]">
               Adj - Raw
             </span>
           </div>
           <div className="my-2">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold font-mono text-[#F8FAFC]">
+              <span className="text-2xl font-bold font-mono text-slate-800">
                 {metrics.meanBias >= 0 ? `+${metrics.meanBias.toFixed(2)}` : metrics.meanBias.toFixed(2)}
               </span>
-              <span className="text-xs text-[#94A3B8]">MW</span>
+              <span className="text-xs text-slate-400">MW</span>
             </div>
           </div>
-          <div className="text-[11px] text-[#94A3B8] border-t border-[rgba(148,163,184,0.08)] pt-2">
+          <div className="text-[11px] text-slate-400 border-t border-[rgba(226,232,240,0.6)] pt-2">
             Average systematic adjustment shift
           </div>
         </div>
@@ -589,13 +589,13 @@ export function FRPStudio() {
         <div
           className="rounded-xl p-4 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
-          <div className="flex items-center justify-between text-[#94A3B8] text-xs">
+          <div className="flex items-center justify-between text-slate-400 text-xs">
             <span>Mean Absolute Error</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(148,163,184,0.1)]">
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(226,232,240,0.8)]">
               MAE
             </span>
           </div>
@@ -604,10 +604,10 @@ export function FRPStudio() {
               <span className="text-2xl font-bold font-mono text-[#F59E0B]">
                 {metrics.mae.toFixed(2)}
               </span>
-              <span className="text-xs text-[#94A3B8]">MW</span>
+              <span className="text-xs text-slate-400">MW</span>
             </div>
           </div>
-          <div className="text-[11px] text-[#94A3B8] border-t border-[rgba(148,163,184,0.08)] pt-2">
+          <div className="text-[11px] text-slate-400 border-t border-[rgba(226,232,240,0.6)] pt-2">
             Average magnitude of FRP calibration
           </div>
         </div>
@@ -616,13 +616,13 @@ export function FRPStudio() {
         <div
           className="rounded-xl p-4 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
-          <div className="flex items-center justify-between text-[#94A3B8] text-xs">
+          <div className="flex items-center justify-between text-slate-400 text-xs">
             <span>Root Mean Square Error</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(148,163,184,0.1)]">
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(226,232,240,0.8)]">
               RMSE
             </span>
           </div>
@@ -631,10 +631,10 @@ export function FRPStudio() {
               <span className="text-2xl font-bold font-mono text-[#22D3EE]">
                 {metrics.rmse.toFixed(2)}
               </span>
-              <span className="text-xs text-[#94A3B8]">MW</span>
+              <span className="text-xs text-slate-400">MW</span>
             </div>
           </div>
-          <div className="text-[11px] text-[#94A3B8] border-t border-[rgba(148,163,184,0.08)] pt-2">
+          <div className="text-[11px] text-slate-400 border-t border-[rgba(226,232,240,0.6)] pt-2">
             Sensitivity to high-energy outliers
           </div>
         </div>
@@ -643,13 +643,13 @@ export function FRPStudio() {
         <div
           className="rounded-xl p-4 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
-          <div className="flex items-center justify-between text-[#94A3B8] text-xs">
+          <div className="flex items-center justify-between text-slate-400 text-xs">
             <span>Symmetric Relative Diff</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(148,163,184,0.1)]">
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(226,232,240,0.8)]">
               SRD
             </span>
           </div>
@@ -660,7 +660,7 @@ export function FRPStudio() {
               </span>
             </div>
           </div>
-          <div className="text-[11px] text-[#94A3B8] border-t border-[rgba(148,163,184,0.08)] pt-2">
+          <div className="text-[11px] text-slate-400 border-t border-[rgba(226,232,240,0.6)] pt-2">
             Normalized relative disparity index
           </div>
         </div>

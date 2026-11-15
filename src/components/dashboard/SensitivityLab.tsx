@@ -177,30 +177,30 @@ export function SensitivityLab() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Top Banner / Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[rgba(148,163,184,0.14)]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[rgba(167,139,250,0.15)] text-[#A78BFA]">
+            <div className="p-1.5 rounded-lg bg-violet-50 text-[#A78BFA]">
               <Sliders className="w-5 h-5" />
             </div>
-            <h1 className="text-2xl font-bold text-[#F8FAFC]">
+            <h1 className="text-2xl font-bold text-slate-800">
               Sensitivity & Provenance Lab
             </h1>
           </div>
-          <p className="text-sm text-[#94A3B8] mt-1">
+          <p className="text-sm text-slate-400 mt-1">
             Tune spatial, temporal, and grid clustering parameters in real time and inspect cryptographic data lineage.
           </p>
         </div>
 
         {/* Quick Presets */}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-[#94A3B8] mr-1">Threshold Presets:</span>
+          <span className="text-xs text-slate-400 mr-1">Threshold Presets:</span>
           <button
             onClick={() => handleSetPreset('recommended')}
             className={`px-2.5 py-1 text-xs rounded-lg font-medium transition-colors border ${
               spatialKm === 2.0 && temporalMin === 30 && gridKm === 1.0
-                ? 'bg-[#F59E0B] text-[#111827] border-[#F59E0B] font-semibold'
-                : 'bg-[#192234] text-[#CBD5E1] border-[rgba(148,163,184,0.2)] hover:border-[#F59E0B]'
+                ? 'bg-blue-600 text-white border-blue-600 font-semibold'
+                : 'bg-white text-slate-600 border-slate-200 hover:border-[#F59E0B]'
             }`}
           >
             Recommended (2km / 30m)
@@ -209,8 +209,8 @@ export function SensitivityLab() {
             onClick={() => handleSetPreset('strict')}
             className={`px-2.5 py-1 text-xs rounded-lg font-medium transition-colors border ${
               spatialKm === 1.0 && temporalMin === 15 && gridKm === 0.5
-                ? 'bg-[#F59E0B] text-[#111827] border-[#F59E0B] font-semibold'
-                : 'bg-[#192234] text-[#CBD5E1] border-[rgba(148,163,184,0.2)] hover:border-[#F59E0B]'
+                ? 'bg-blue-600 text-white border-blue-600 font-semibold'
+                : 'bg-white text-slate-600 border-slate-200 hover:border-[#F59E0B]'
             }`}
           >
             Strict (1km / 15m)
@@ -219,8 +219,8 @@ export function SensitivityLab() {
             onClick={() => handleSetPreset('relaxed')}
             className={`px-2.5 py-1 text-xs rounded-lg font-medium transition-colors border ${
               spatialKm === 4.0 && temporalMin === 60 && gridKm === 2.0
-                ? 'bg-[#F59E0B] text-[#111827] border-[#F59E0B] font-semibold'
-                : 'bg-[#192234] text-[#CBD5E1] border-[rgba(148,163,184,0.2)] hover:border-[#F59E0B]'
+                ? 'bg-blue-600 text-white border-blue-600 font-semibold'
+                : 'bg-white text-slate-600 border-slate-200 hover:border-[#F59E0B]'
             }`}
           >
             Relaxed (4km / 60m)
@@ -234,25 +234,25 @@ export function SensitivityLab() {
         <div
           className="lg:col-span-5 rounded-xl p-5 flex flex-col justify-between space-y-6"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-[rgba(148,163,184,0.12)]">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
               <div>
-                <h2 className="text-base font-semibold text-[#F8FAFC] flex items-center gap-2">
+                <h2 className="text-base font-semibold text-slate-800 flex items-center gap-2">
                   <Sliders className="w-4 h-4 text-[#F59E0B]" />
                   Matching Hyperparameters
                 </h2>
-                <p className="text-xs text-[#94A3B8] mt-0.5">
+                <p className="text-xs text-slate-400 mt-0.5">
                   Controls bipartite graph edge formation
                 </p>
               </div>
               <button
                 onClick={() => handleSetPreset('recommended')}
                 title="Reset to recommended"
-                className="p-1.5 text-[#94A3B8] hover:text-[#F8FAFC] rounded hover:bg-[rgba(148,163,184,0.1)] transition-colors"
+                className="p-1.5 text-slate-400 hover:text-slate-800 rounded hover:bg-slate-100 transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
               </button>
@@ -263,12 +263,12 @@ export function SensitivityLab() {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="spatial-slider"
-                  className="text-xs font-medium text-[#CBD5E1] flex items-center gap-1.5"
+                  className="text-xs font-medium text-slate-600 flex items-center gap-1.5"
                 >
                   <span>Spatial Match Distance</span>
-                  <span className="text-[10px] text-[#64748B]">(Δd max)</span>
+                  <span className="text-[10px] text-slate-500">(Δd max)</span>
                 </label>
-                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-[rgba(245,158,11,0.15)] text-[#F59E0B] border border-[rgba(245,158,11,0.3)]">
+                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-amber-50 text-[#F59E0B] border border-[rgba(245,158,11,0.3)]">
                   {spatialKm.toFixed(1)} km
                 </span>
               </div>
@@ -281,9 +281,9 @@ export function SensitivityLab() {
                 value={spatialKm}
                 onChange={(e) => setSpatialKm(parseFloat(e.target.value))}
                 style={{ accentColor: '#F59E0B' }}
-                className="w-full cursor-pointer h-2 bg-[#111827] rounded-lg appearance-none"
+                className="w-full cursor-pointer h-2 bg-slate-50 rounded-lg appearance-none"
               />
-              <div className="flex justify-between text-[10px] text-[#64748B]">
+              <div className="flex justify-between text-[10px] text-slate-500">
                 <span>0.5 km (Tight)</span>
                 <span>2.0 km (Default)</span>
                 <span>5.0 km (Broad)</span>
@@ -295,12 +295,12 @@ export function SensitivityLab() {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="temporal-slider"
-                  className="text-xs font-medium text-[#CBD5E1] flex items-center gap-1.5"
+                  className="text-xs font-medium text-slate-600 flex items-center gap-1.5"
                 >
                   <span>Temporal Match Window</span>
-                  <span className="text-[10px] text-[#64748B]">(Δt max)</span>
+                  <span className="text-[10px] text-slate-500">(Δt max)</span>
                 </label>
-                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-[rgba(34,211,238,0.15)] text-[#22D3EE] border border-[rgba(34,211,238,0.3)]">
+                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-cyan-50 text-[#22D3EE] border border-[rgba(34,211,238,0.3)]">
                   {temporalMin} min
                 </span>
               </div>
@@ -313,9 +313,9 @@ export function SensitivityLab() {
                 value={temporalMin}
                 onChange={(e) => setTemporalMin(parseInt(e.target.value, 10))}
                 style={{ accentColor: '#F59E0B' }}
-                className="w-full cursor-pointer h-2 bg-[#111827] rounded-lg appearance-none"
+                className="w-full cursor-pointer h-2 bg-slate-50 rounded-lg appearance-none"
               />
-              <div className="flex justify-between text-[10px] text-[#64748B]">
+              <div className="flex justify-between text-[10px] text-slate-500">
                 <span>5 min (Strict)</span>
                 <span>30 min (Default)</span>
                 <span>120 min (Wide)</span>
@@ -327,12 +327,12 @@ export function SensitivityLab() {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="grid-slider"
-                  className="text-xs font-medium text-[#CBD5E1] flex items-center gap-1.5"
+                  className="text-xs font-medium text-slate-600 flex items-center gap-1.5"
                 >
                   <span>Spatial Partition Grid</span>
-                  <span className="text-[10px] text-[#64748B]">(Cell size)</span>
+                  <span className="text-[10px] text-slate-500">(Cell size)</span>
                 </label>
-                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-[rgba(167,139,250,0.15)] text-[#A78BFA] border border-[rgba(167,139,250,0.3)]">
+                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-violet-50 text-[#A78BFA] border border-[rgba(167,139,250,0.3)]">
                   {gridKm.toFixed(1)} km
                 </span>
               </div>
@@ -345,9 +345,9 @@ export function SensitivityLab() {
                 value={gridKm}
                 onChange={(e) => setGridKm(parseFloat(e.target.value))}
                 style={{ accentColor: '#F59E0B' }}
-                className="w-full cursor-pointer h-2 bg-[#111827] rounded-lg appearance-none"
+                className="w-full cursor-pointer h-2 bg-slate-50 rounded-lg appearance-none"
               />
-              <div className="flex justify-between text-[10px] text-[#64748B]">
+              <div className="flex justify-between text-[10px] text-slate-500">
                 <span>0.5 km (High Res)</span>
                 <span>1.0 km (Standard)</span>
                 <span>5.0 km (Coarse)</span>
@@ -356,8 +356,8 @@ export function SensitivityLab() {
           </div>
 
           {/* Persona Explanation inside Control Box */}
-          <div className="p-3 rounded-lg bg-[rgba(15,23,42,0.6)] border border-[rgba(148,163,184,0.1)] text-xs space-y-1">
-            <div className="flex items-center gap-1.5 font-medium text-[#F8FAFC]">
+          <div className="p-3 rounded-lg bg-[rgba(15,23,42,0.6)] border border-slate-100 text-xs space-y-1">
+            <div className="flex items-center gap-1.5 font-medium text-slate-800">
               {persona === 'scientist' ? (
                 <>
                   <Info className="w-3.5 h-3.5 text-[#A78BFA]" />
@@ -370,9 +370,9 @@ export function SensitivityLab() {
                 </>
               )}
             </div>
-            <p className="text-[11px] text-[#94A3B8] leading-relaxed">
+            <p className="text-[11px] text-slate-600 leading-relaxed">
               {persona === 'scientist'
-                ? 'Centroid distance filter Δd ≤ spatialKm gates candidate edge creation before computing Jaccard IoU and smaller footprint overlap Os = Area(A∩B) / min(Area(A), Area(B)).'
+                ? 'Centroid distance filter Δd ≤ spatialKm gates candidate edge creation before computing Jaccard IoU and smaller-footprint overlap Os = Area(A ∩ B) / min(Area(A), Area(B)).'
                 : 'Tighter spatial filters make sure only fire detections that truly overlap are linked together. Wider windows allow comparing satellites passing an hour apart.'}
             </p>
           </div>
@@ -382,17 +382,17 @@ export function SensitivityLab() {
         <div
           className="lg:col-span-7 rounded-xl p-5 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
           <div className="flex items-start justify-between mb-2">
             <div>
-              <h2 className="text-base font-semibold text-[#F8FAFC] flex items-center gap-2">
+              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-2">
                 <Target className="w-4 h-4 text-[#A78BFA]" />
                 Precision-Recall Tradeoff Curve
               </h2>
-              <p className="text-xs text-[#94A3B8] mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 Simulated trade-off as spatial tolerance varies from 0.5 km to 5.0 km
               </p>
             </div>
@@ -410,20 +410,20 @@ export function SensitivityLab() {
                 data={prCurve}
                 margin={{ top: 15, right: 30, bottom: 20, left: 10 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.1)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
                 <XAxis
                   type="number"
                   dataKey="recall"
                   name="Recall"
                   unit="%"
                   domain={[50, 95]}
-                  stroke="#64748B"
+                  stroke="#94A3B8"
                   fontSize={12}
                   label={{
                     value: 'Recall (%)',
                     position: 'insideBottom',
                     offset: -10,
-                    fill: '#64748B',
+                    fill: '#94A3B8',
                     fontSize: 12,
                   }}
                 />
@@ -433,14 +433,14 @@ export function SensitivityLab() {
                   name="Precision"
                   unit="%"
                   domain={[65, 100]}
-                  stroke="#64748B"
+                  stroke="#94A3B8"
                   fontSize={12}
                   label={{
                     value: 'Precision (%)',
                     angle: -90,
                     position: 'insideLeft',
                     offset: 5,
-                    fill: '#64748B',
+                    fill: '#94A3B8',
                     fontSize: 12,
                   }}
                 />
@@ -452,21 +452,21 @@ export function SensitivityLab() {
                         <div
                           className="rounded-lg p-2.5 shadow-xl text-xs space-y-1"
                           style={{
-                            background: '#192234',
-                            border: '1px solid rgba(148,163,184,0.25)',
-                            color: '#F8FAFC',
+                            background: '#FFFFFF',
+                            border: '1px solid #E2E8F0',
+                            color: '#1E293B',
                           }}
                         >
                           <div className="font-semibold text-xs text-[#A78BFA]">
                             Threshold: {data.spatialKm} km
                           </div>
-                          <div className="flex justify-between gap-3 text-[#CBD5E1]">
+                          <div className="flex justify-between gap-3 text-slate-600">
                             <span>Precision:</span>
                             <span className="font-mono font-medium text-[#34D399]">
                               {data.precision}%
                             </span>
                           </div>
-                          <div className="flex justify-between gap-3 text-[#CBD5E1]">
+                          <div className="flex justify-between gap-3 text-slate-600">
                             <span>Recall:</span>
                             <span className="font-mono font-medium text-[#22D3EE]">
                               {data.recall}%
@@ -508,7 +508,7 @@ export function SensitivityLab() {
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-2 text-xs text-[#94A3B8] flex items-center justify-between border-t border-[rgba(148,163,184,0.1)] pt-2">
+          <div className="mt-2 text-xs text-slate-400 flex items-center justify-between border-t border-slate-100 pt-2">
             <span>Operating at: {spatialKm} km spatial / {temporalMin} min temporal</span>
             <span className="font-mono text-[#F59E0B]">
               P: {(metrics.precision * 100).toFixed(1)}% | R: {(metrics.recall * 100).toFixed(1)}%
@@ -523,21 +523,21 @@ export function SensitivityLab() {
         <div
           className="rounded-xl p-4 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
-          <div className="flex items-center justify-between text-[#94A3B8] text-xs">
+          <div className="flex items-center justify-between text-slate-400 text-xs">
             <span>Matched Candidates</span>
             <Layers className="w-4 h-4 text-[#A78BFA]" />
           </div>
           <div className="my-2">
-            <div className="text-3xl font-bold font-mono text-[#F8FAFC]">
+            <div className="text-3xl font-bold font-mono text-slate-800">
               {metrics.candidateCount}
             </div>
           </div>
           <div className="space-y-1">
-            <div className="w-full bg-[#111827] h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300 bg-[#A78BFA]"
                 style={{
@@ -545,7 +545,7 @@ export function SensitivityLab() {
                 }}
               />
             </div>
-            <div className="flex justify-between text-[11px] text-[#94A3B8]">
+            <div className="flex justify-between text-[11px] text-slate-400">
               <span>Base (CS1): 11 pairs</span>
               <span className="text-[#A78BFA]">
                 {((metrics.candidateCount / 11) * 100).toFixed(0)}% scale
@@ -558,11 +558,11 @@ export function SensitivityLab() {
         <div
           className="rounded-xl p-4 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
-          <div className="flex items-center justify-between text-[#94A3B8] text-xs">
+          <div className="flex items-center justify-between text-slate-400 text-xs">
             <span>Precision</span>
             <span className="font-mono text-[10px] text-[#34D399]">TP / (TP+FP)</span>
           </div>
@@ -572,13 +572,13 @@ export function SensitivityLab() {
             </div>
           </div>
           <div className="space-y-1">
-            <div className="w-full bg-[#111827] h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300 bg-[#34D399]"
                 style={{ width: `${metrics.precision * 100}%` }}
               />
             </div>
-            <div className="flex justify-between text-[11px] text-[#94A3B8]">
+            <div className="flex justify-between text-[11px] text-slate-400">
               <span>False Match Resistance</span>
               <span className="text-[#34D399]">High</span>
             </div>
@@ -589,11 +589,11 @@ export function SensitivityLab() {
         <div
           className="rounded-xl p-4 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
-          <div className="flex items-center justify-between text-[#94A3B8] text-xs">
+          <div className="flex items-center justify-between text-slate-400 text-xs">
             <span>Recall</span>
             <span className="font-mono text-[10px] text-[#22D3EE]">TP / (TP+FN)</span>
           </div>
@@ -603,13 +603,13 @@ export function SensitivityLab() {
             </div>
           </div>
           <div className="space-y-1">
-            <div className="w-full bg-[#111827] h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300 bg-[#22D3EE]"
                 style={{ width: `${metrics.recall * 100}%` }}
               />
             </div>
-            <div className="flex justify-between text-[11px] text-[#94A3B8]">
+            <div className="flex justify-between text-[11px] text-slate-400">
               <span>Co-detection Coverage</span>
               <span className="text-[#22D3EE]">Extensive</span>
             </div>
@@ -620,11 +620,11 @@ export function SensitivityLab() {
         <div
           className="rounded-xl p-4 flex flex-col justify-between"
           style={{
-            background: '#192234',
-            border: '1px solid rgba(148,163,184,0.14)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
           }}
         >
-          <div className="flex items-center justify-between text-[#94A3B8] text-xs">
+          <div className="flex items-center justify-between text-slate-400 text-xs">
             <span>Harmonized F1 Score</span>
             <span className="font-mono text-[10px] text-[#F59E0B]">Harmonic Mean</span>
           </div>
@@ -634,13 +634,13 @@ export function SensitivityLab() {
             </div>
           </div>
           <div className="space-y-1">
-            <div className="w-full bg-[#111827] h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300 bg-[#F59E0B]"
                 style={{ width: `${metrics.f1 * 100}%` }}
               />
             </div>
-            <div className="flex justify-between text-[11px] text-[#94A3B8]">
+            <div className="flex justify-between text-[11px] text-slate-400">
               <span>Optimal Tradeoff Point</span>
               <span className="text-[#F59E0B]">Balanced</span>
             </div>
@@ -652,17 +652,17 @@ export function SensitivityLab() {
       <div
         className="rounded-xl p-5 space-y-4"
         style={{
-          background: '#192234',
-          border: '1px solid rgba(148,163,184,0.14)',
+          background: '#FFFFFF',
+          border: '1px solid #E2E8F0',
         }}
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-[rgba(148,163,184,0.12)]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-200">
           <div>
-            <h2 className="text-base font-semibold text-[#F8FAFC] flex items-center gap-2">
+            <h2 className="text-base font-semibold text-slate-800 flex items-center gap-2">
               <Database className="w-4 h-4 text-[#34D399]" />
               Data Provenance & Cryptographic Lineage
             </h2>
-            <p className="text-xs text-[#94A3B8] mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               Verified NASA Earthdata granules with SHA-256 checksums and automated QA pipeline status
             </p>
           </div>
@@ -671,21 +671,21 @@ export function SensitivityLab() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleExportGeoJSON}
-              className="px-3 py-1.5 text-xs rounded-lg font-medium bg-[#111827] text-[#22D3EE] border border-[rgba(34,211,238,0.3)] hover:bg-[rgba(34,211,238,0.1)] transition-colors flex items-center gap-1.5"
+              className="px-3 py-1.5 text-xs rounded-lg font-medium bg-slate-50 text-[#22D3EE] border border-[rgba(34,211,238,0.3)] hover:bg-cyan-50 transition-colors flex items-center gap-1.5"
             >
               <FileCode className="w-3.5 h-3.5" />
               GeoJSON
             </button>
             <button
               onClick={handleExportCSV}
-              className="px-3 py-1.5 text-xs rounded-lg font-medium bg-[#111827] text-[#34D399] border border-[rgba(52,211,153,0.3)] hover:bg-[rgba(52,211,153,0.1)] transition-colors flex items-center gap-1.5"
+              className="px-3 py-1.5 text-xs rounded-lg font-medium bg-slate-50 text-[#34D399] border border-[rgba(52,211,153,0.3)] hover:bg-emerald-50 transition-colors flex items-center gap-1.5"
             >
               <FileSpreadsheet className="w-3.5 h-3.5" />
               CSV
             </button>
             <button
               onClick={handleExportJSON}
-              className="px-3 py-1.5 text-xs rounded-lg font-medium bg-[#111827] text-[#F59E0B] border border-[rgba(245,158,11,0.3)] hover:bg-[rgba(245,158,11,0.1)] transition-colors flex items-center gap-1.5"
+              className="px-3 py-1.5 text-xs rounded-lg font-medium bg-slate-50 text-[#F59E0B] border border-[rgba(245,158,11,0.3)] hover:bg-amber-50 transition-colors flex items-center gap-1.5"
             >
               <Download className="w-3.5 h-3.5" />
               JSON
@@ -697,7 +697,7 @@ export function SensitivityLab() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-[rgba(148,163,184,0.14)] text-[#94A3B8]">
+              <tr className="border-b border-slate-200 text-slate-400">
                 <th className="py-2.5 px-3 font-semibold">Granule ID</th>
                 <th className="py-2.5 px-3 font-semibold">Sensor</th>
                 <th className="py-2.5 px-3 font-semibold">Collection</th>
@@ -708,32 +708,32 @@ export function SensitivityLab() {
                 <th className="py-2.5 px-3 font-semibold text-right">Hotspots</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[rgba(148,163,184,0.08)]">
+            <tbody className="divide-y divide-[rgba(226,232,240,0.6)]">
               {provenanceData.map((row) => {
                 // QA badge styling: pass=green, flag=amber, fail=red
                 const qaBadgeColor =
                   row.qaStatus === 'pass'
                     ? 'bg-[rgba(52,211,153,0.15)] text-[#34D399] border-[rgba(52,211,153,0.3)]'
                     : row.qaStatus === 'flag'
-                    ? 'bg-[rgba(245,158,11,0.15)] text-[#F59E0B] border-[rgba(245,158,11,0.3)]'
+                    ? 'bg-amber-50 text-[#F59E0B] border-[rgba(245,158,11,0.3)]'
                     : 'bg-[rgba(239,68,68,0.15)] text-[#EF4444] border-[rgba(239,68,68,0.3)]';
 
                 // Collection badge: 6.1=cyan, 2=cyan
-                const colBadgeColor = 'bg-[rgba(34,211,238,0.15)] text-[#22D3EE] border-[rgba(34,211,238,0.3)]';
+                const colBadgeColor = 'bg-cyan-50 text-[#22D3EE] border-[rgba(34,211,238,0.3)]';
 
                 // Processing badge: Standard=slate, NRT=amber
                 const procBadgeColor =
                   row.processing === 'Standard'
-                    ? 'bg-[rgba(148,163,184,0.15)] text-[#CBD5E1] border-[rgba(148,163,184,0.3)]'
-                    : 'bg-[rgba(245,158,11,0.15)] text-[#F59E0B] border-[rgba(245,158,11,0.3)]';
+                    ? 'bg-slate-100 text-slate-600 border-slate-300'
+                    : 'bg-amber-50 text-[#F59E0B] border-[rgba(245,158,11,0.3)]';
 
                 return (
                   <tr
                     key={row.granuleId}
-                    className="hover:bg-[rgba(148,163,184,0.04)] transition-colors"
+                    className="hover:bg-slate-50 transition-colors"
                   >
                     {/* Granule ID */}
-                    <td className="py-3 px-3 font-mono font-medium text-[#F8FAFC]">
+                    <td className="py-3 px-3 font-mono font-medium text-slate-800">
                       {row.granuleId}
                     </td>
 
@@ -768,7 +768,7 @@ export function SensitivityLab() {
                     </td>
 
                     {/* Acq. Date */}
-                    <td className="py-3 px-3 text-[#CBD5E1] whitespace-nowrap">
+                    <td className="py-3 px-3 text-slate-600 whitespace-nowrap">
                       {row.acqDate}
                     </td>
 
@@ -776,7 +776,7 @@ export function SensitivityLab() {
                     <td className="py-3 px-3">
                       <div className="flex items-center gap-1.5">
                         <span
-                          className="font-mono text-[#94A3B8] cursor-help"
+                          className="font-mono text-slate-400 cursor-help"
                           title={row.sha256}
                         >
                           {row.sha256.substring(0, 16)}...
@@ -784,7 +784,7 @@ export function SensitivityLab() {
                         <button
                           onClick={() => handleCopyHash(row.sha256)}
                           title="Copy full SHA-256 checksum"
-                          className="p-1 hover:text-[#F8FAFC] text-[#64748B] rounded transition-colors"
+                          className="p-1 hover:text-slate-800 text-slate-500 rounded transition-colors"
                         >
                           {copiedHash === row.sha256 ? (
                             <Check className="w-3.5 h-3.5 text-[#34D399]" />
@@ -805,7 +805,7 @@ export function SensitivityLab() {
                     </td>
 
                     {/* Hotspot Count */}
-                    <td className="py-3 px-3 text-right font-mono font-medium text-[#F8FAFC]">
+                    <td className="py-3 px-3 text-right font-mono font-medium text-slate-800">
                       {row.hotspotCount}
                     </td>
                   </tr>
@@ -816,7 +816,7 @@ export function SensitivityLab() {
         </div>
 
         {/* Footer info */}
-        <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between text-xs text-[#94A3B8] border-t border-[rgba(148,163,184,0.08)]">
+        <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between text-xs text-slate-400 border-t border-[rgba(226,232,240,0.6)]">
           <span>
             Total catalog granules loaded: {provenanceData.length} | All records verifiable via NASA Earthdata CMR API
           </span>

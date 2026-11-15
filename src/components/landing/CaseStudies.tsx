@@ -1,162 +1,144 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowRight, MapPin, Calendar } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
+import caseStudies from '../../mocks/caseStudies';
 
-interface CaseCardProps {
-  caseNum: string;
-  caseId: string;
-  title: string;
-  description: string;
-  region: string;
-  date: string;
-  bullets: string[];
-  modisLabel: string;
-  viirsLabel: string;
-}
-
-const SensorPill: React.FC<{ label: string; color: string; bg: string }> = ({ label, color, bg }) => (
-  <span
-    className="px-2 py-0.5 rounded-full text-xs font-semibold"
-    style={{ background: bg, color }}
-  >
-    {label}
-  </span>
-);
-
-const CaseCard: React.FC<CaseCardProps> = ({
-  caseNum, caseId, title, description, region, date, bullets, modisLabel, viirsLabel,
-}) => {
-  const navigate = useNavigate();
-  return (
-    <div
-      className="flex flex-col gap-5 p-7 rounded-xl cursor-pointer group transition-all hover:scale-[1.02]"
-      style={{
-        background: '#192234',
-        border: '1px solid rgba(148,163,184,0.14)',
-      }}
-    >
-      {/* Header row */}
-      <div className="flex items-start justify-between gap-2">
-        <span
-          className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-          style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}
-        >
-          {caseNum}
-        </span>
-        <div className="flex gap-2">
-          <SensorPill label={modisLabel} color="#F59E0B" bg="rgba(245,158,11,0.15)" />
-          <SensorPill label={viirsLabel} color="#22D3EE" bg="rgba(34,211,238,0.12)" />
-        </div>
-      </div>
-
-      <h3 className="text-lg font-bold" style={{ color: '#F8FAFC' }}>{title}</h3>
-      <p className="text-sm" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>{description}</p>
-
-      {/* Meta */}
-      <div className="flex flex-wrap gap-4 text-xs" style={{ color: '#94A3B8' }}>
-        <span className="flex items-center gap-1">
-          <MapPin className="w-3 h-3" /> {region}
-        </span>
-        <span className="flex items-center gap-1">
-          <Calendar className="w-3 h-3" /> {date}
-        </span>
-      </div>
-
-      {/* Bullets */}
-      <ul className="flex flex-col gap-1.5">
-        {bullets.map((b, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>
-            <span className="mt-1.5 shrink-0 w-1.5 h-1.5 rounded-full" style={{ background: '#22D3EE' }} />
-            {b}
-          </li>
-        ))}
-      </ul>
-
-      {/* CTA */}
-      <button
-        onClick={() => navigate(`/dashboard?case=${caseId}`)}
-        className="mt-auto flex items-center gap-2 text-sm font-semibold transition-colors group-hover:gap-3"
-        style={{ color: '#F59E0B', background: 'transparent', border: 'none', cursor: 'pointer', padding: 0 }}
-      >
-        Launch Case in Dashboard
-        <ArrowRight className="w-4 h-4" />
-      </button>
-    </div>
-  );
-};
-
-const CaseStudies: React.FC = () => {
-  const cases: CaseCardProps[] = [
-    {
-      caseNum: 'Case 1',
-      caseId: 'cs1',
-      title: 'Agricultural Burning Cluster — Many-to-Many Overlap',
-      description:
-        'Two MODIS detections co-registered with nine VIIRS hotspots over a dense crop residue burning cluster. ' +
-        'Demonstrates how footprint-aware bipartite matching reveals the true fire extent.',
-      region: 'Punjab, India',
-      date: 'Oct 2023',
-      bullets: [
-        '2 MODIS vs. 9 VIIRS detections — raw count ratio misleading without footprint context',
-        'Os metric reveals all 9 VIIRS pixels overlap within the 2 MODIS footprints',
-        'FRP observation operator corrects for 7× pixel-area difference',
-      ],
-      modisLabel: 'MODIS ×2',
-      viirsLabel: 'VIIRS ×9',
-    },
-    {
-      caseNum: 'Case 2',
-      caseId: 'cs2',
-      title: 'Cloud-Obscured MODIS Pass vs. VIIRS Detection',
-      description:
-        'A MODIS Terra pass reports zero hotspots; VIIRS SNPP detects active fire 40 minutes later. ' +
-        'Valid non-detection revealed by cloud_obscured_fraction = 0.94 for the MODIS granule.',
-      region: 'Mato Grosso, Brazil',
-      date: 'Aug 2023',
-      bullets: [
-        'MODIS cloud_obscured_fraction = 0.94 — most of the granule obscured',
-        'VIIRS valid clear-sky observation confirms active fire below cloud deck',
-        'Observation-opportunity layer prevents false "fire-free" classification',
-      ],
-      modisLabel: 'MODIS ×0',
-      viirsLabel: 'VIIRS ×4',
-    },
-    {
-      caseNum: 'Case 3',
-      caseId: 'cs3',
-      title: 'Sub-Threshold Low-Intensity Fire below MODIS Detection Limit',
-      description:
-        'A low-intensity grass fire with FRP ~2.1 MW falls below MODIS 1-km detection threshold (~5.7 MW). ' +
-        'VIIRS 375-m sensitivity captures it; MODIS valid clear-sky — genuine sensor capability difference.',
-      region: 'California, USA',
-      date: 'Mar 2024',
-      bullets: [
-        'Fire FRP ~2.1 MW — below MODIS 5.7 MW daytime detection limit',
-        'MODIS valid clear-sky with 0 detections; VIIRS detects 1 hotspot',
-        'FRP operator flags as sub-threshold rather than valid non-detection',
-      ],
-      modisLabel: 'MODIS ×0',
-      viirsLabel: 'VIIRS ×1',
-    },
-  ];
+export const CaseStudies = () => {
+  const [selectedCaseId, setSelectedCaseId] = useState<string>(caseStudies[0].id);
+  const activeCase = caseStudies.find((c) => c.id === selectedCaseId) || caseStudies[0];
 
   return (
-    <section id="case-studies" className="py-20 px-6" style={{ background: '#111827' }}>
+    <section id="case-studies" className="py-20 px-6 bg-white border-t border-slate-100">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#22D3EE' }}>
-            Interactive Demos
-          </p>
-          <h2 className="text-4xl font-bold" style={{ color: '#F8FAFC' }}>Case Studies</h2>
-          <p className="mt-4 text-lg max-w-2xl mx-auto" style={{ color: '#CBD5E1', lineHeight: 1.65 }}>
-            Three real-world scenarios that showcase each type of MODIS–VIIRS discrepancy — click any card to explore it live.
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-3">
+            Real Research Scenarios
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Explore Harmonization in Action
+          </h2>
+          <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+            Select a real-world scenario to see how SANYAM resolves satellite observation conflicts across diverse ecosystems.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {cases.map((c) => (
-            <CaseCard key={c.caseId} {...c} />
-          ))}
+        {/* Scenario Pill Switcher Tabs */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+          {caseStudies.map((cs) => {
+            const isSelected = cs.id === selectedCaseId;
+            return (
+              <button
+                key={cs.id}
+                onClick={() => setSelectedCaseId(cs.id)}
+                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 border ${
+                  isSelected
+                    ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
+                }`}
+              >
+                <span>{cs.badge}</span>
+                <span className="hidden sm:inline">· {cs.title.split('—')[0]}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Selected Scenario Showcase Card */}
+        <div className="bg-slate-50 rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Column: Details & Narrative */}
+            <div className="lg:col-span-7 flex flex-col">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wide bg-blue-100 text-blue-800">
+                  {activeCase.badge}
+                </span>
+                <span className="flex items-center gap-1 text-xs text-slate-500 font-medium">
+                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                  Region: [{activeCase.prefilterRegion.join(', ')}]
+                </span>
+                <span className="flex items-center gap-1 text-xs text-slate-500 font-medium">
+                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                  {activeCase.prefilterDate}
+                </span>
+              </div>
+
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">
+                {activeCase.title}
+              </h3>
+
+              <p className="text-sm text-slate-600 leading-relaxed mb-6">
+                {activeCase.description}
+              </p>
+
+              {/* Highlights list */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
+                {activeCase.highlights.map((h, idx) => (
+                  <div key={idx} className="p-3 rounded-xl bg-white border border-slate-200 flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <span className="text-xs text-slate-700 leading-snug">{h}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div>
+                <Link
+                  to={`/dashboard?case=${activeCase.id}`}
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-md hover:shadow-lg hover:shadow-blue-500/20 active:scale-95 no-underline"
+                >
+                  <span>Launch Case in Dashboard</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Visual Metrics Card */}
+            <div className="lg:col-span-5">
+              <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
+                <div className="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-2 flex items-center justify-between">
+                  <span>Harmonization Context</span>
+                  <span className="text-[10px] text-blue-600 font-mono font-normal">NASA Challenge Anchor</span>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-500">Scenario Class:</span>
+                    <span className="font-mono font-medium text-slate-800 uppercase">
+                      {activeCase.scenarioType.replace(/_/g, ' ')}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-500">Prefilter Date:</span>
+                    <span className="font-mono font-bold text-amber-600">
+                      {activeCase.prefilterDate}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-500">Spatial Bounds:</span>
+                    <span className="font-mono font-bold text-cyan-600">
+                      {activeCase.prefilterRegion[0]}°, {activeCase.prefilterRegion[1]}°
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-500">Harmonization Metric:</span>
+                    <span className="font-mono font-semibold text-violet-600">
+                      {activeCase.id === 'cs1'
+                        ? 'Os ≥ 0.50 (Bipartite Overlap)'
+                        : activeCase.id === 'cs2'
+                        ? 'Cloud Fraction = 0.94 Mask'
+                        : 'Dp Cutoff = 5.7 MW Limit'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 text-[11px] text-slate-500">
+                  Clicking "Launch Case in Dashboard" applies regional coordinates and date filters automatically.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
