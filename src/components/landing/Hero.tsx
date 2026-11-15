@@ -78,7 +78,7 @@ export const Hero = () => {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
                   <div className="text-[11px] font-medium text-slate-500 uppercase tracking-wide">Total Hotspots</div>
-                  <div className="text-xl font-bold text-slate-800 mt-0.5">29 Records</div>
+                  <div className="text-xl font-bold text-slate-800 mt-0.5">31 Records</div>
                   <div className="text-[10px] text-emerald-600 font-medium mt-1">✓ MODIS + VIIRS Harmonized</div>
                 </div>
                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
@@ -88,7 +88,7 @@ export const Hero = () => {
                 </div>
                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
                   <div className="text-[11px] font-medium text-slate-500 uppercase tracking-wide">VIIRS 375m Detections</div>
-                  <div className="text-xl font-bold text-cyan-600 mt-0.5">27 Sub-Pixels</div>
+                  <div className="text-xl font-bold text-cyan-600 mt-0.5">29 Sub-Pixels</div>
                   <div className="text-[10px] text-slate-500 mt-1">S-NPP / NOAA-20 / NOAA-21</div>
                 </div>
                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">

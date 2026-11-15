@@ -4,7 +4,6 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import { X, Clock, Layers, ShieldCheck, Cpu, CheckCircle2 } from 'lucide-react';
 import hotspots from '../../mocks/hotspots';
-import { usePersona } from '../../store/personaStore';
 import { Badge } from '../ui/Badge';
 import { Drawer } from '../ui/Drawer';
 import { Button } from '../ui/Button';
@@ -174,7 +173,6 @@ function MapFitter({ bounds }: MapFitterProps) {
 export function MapWorkspace() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { persona } = usePersona();
 
   // Active case study param from URL: ?case=cs1|cs2|cs3
   const rawCase = searchParams.get('case')?.toLowerCase();
@@ -739,27 +737,27 @@ export function MapWorkspace() {
                           {/* Progress bars for IoU and Os */}
                           <div className="flex flex-col gap-1.5 pt-1">
                             <div className="flex items-center justify-between text-[11px]">
-                              <span className="text-slate-400 font-mono">IoU (Intersection-over-Union):</span>
-                              <span className="font-mono font-bold text-purple-300">
+                              <span className="text-slate-600 font-mono">IoU (Intersection-over-Union):</span>
+                              <span className="font-mono font-bold text-purple-700">
                                 {(m.iou * 100).toFixed(0)}%
                               </span>
                             </div>
-                            <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-purple-500 rounded-full"
+                                className="h-full bg-purple-600 rounded-full"
                                 style={{ width: `${m.iou * 100}%` }}
                               />
                             </div>
 
                             <div className="flex items-center justify-between text-[11px] pt-1">
-                              <span className="text-slate-400 font-mono">Os (Smaller Footprint Overlap):</span>
-                              <span className="font-mono font-bold text-emerald-300">
+                              <span className="text-slate-600 font-mono">Os (Smaller Footprint Overlap):</span>
+                              <span className="font-mono font-bold text-emerald-700">
                                 {(m.os * 100).toFixed(0)}%
                               </span>
                             </div>
-                            <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-emerald-500 rounded-full"
+                                className="h-full bg-emerald-600 rounded-full"
                                 style={{ width: `${m.os * 100}%` }}
                               />
                             </div>
@@ -779,17 +777,17 @@ export function MapWorkspace() {
 
                   <div className="p-3 rounded-lg bg-white border border-slate-200 shadow-sm flex flex-col gap-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-modis-amber">
+                      <span className="font-mono text-xs font-bold text-amber-700">
                         Parent: {selectedMatchDetails.parentModisId}
                       </span>
                       <div className="flex items-center gap-2 text-xs">
-                        <span className="text-slate-400">Δt:</span>
-                        <span className="font-mono text-slate-200">
+                        <span className="text-slate-500 font-medium">Δt:</span>
+                        <span className="font-mono text-slate-800 font-semibold">
                           {selectedMatchDetails.match.deltaTMinutes} min
                         </span>
-                        <span className="text-slate-600">|</span>
-                        <span className="text-slate-400">Dist:</span>
-                        <span className="font-mono text-slate-200">
+                        <span className="text-slate-300">|</span>
+                        <span className="text-slate-500 font-medium">Dist:</span>
+                        <span className="font-mono text-slate-800 font-semibold">
                           {selectedMatchDetails.match.centroidDistKm} km
                         </span>
                       </div>
@@ -797,27 +795,27 @@ export function MapWorkspace() {
 
                     <div className="flex flex-col gap-1.5 pt-1">
                       <div className="flex items-center justify-between text-[11px]">
-                        <span className="text-slate-400 font-mono">IoU:</span>
-                        <span className="font-mono font-bold text-purple-300">
+                        <span className="text-slate-600 font-mono">IoU:</span>
+                        <span className="font-mono font-bold text-purple-700">
                           {(selectedMatchDetails.match.iou * 100).toFixed(0)}%
                         </span>
                       </div>
-                      <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-purple-500 rounded-full"
+                          className="h-full bg-purple-600 rounded-full"
                           style={{ width: `${selectedMatchDetails.match.iou * 100}%` }}
                         />
                       </div>
 
                       <div className="flex items-center justify-between text-[11px] pt-1">
-                        <span className="text-slate-400 font-mono">Os (Containment):</span>
-                        <span className="font-mono font-bold text-emerald-300">
+                        <span className="text-slate-600 font-mono">Os (Containment):</span>
+                        <span className="font-mono font-bold text-emerald-700">
                           {(selectedMatchDetails.match.os * 100).toFixed(0)}%
                         </span>
                       </div>
-                      <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-emerald-500 rounded-full"
+                          className="h-full bg-emerald-600 rounded-full"
                           style={{ width: `${selectedMatchDetails.match.os * 100}%` }}
                         />
                       </div>
@@ -827,7 +825,7 @@ export function MapWorkspace() {
               )}
 
               {!selectedMatchDetails && (
-                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-400 leading-relaxed">
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
                   {selectedHotspot.sensor.includes('MODIS')
                     ? 'No coincident VIIRS detections occurred within the ±3 hour spatial-temporal window.'
                     : 'Isolated VIIRS detection during overpass; no coincident daytime MODIS pixel exceeded the local sensor detection threshold.'}
@@ -835,45 +833,41 @@ export function MapWorkspace() {
               )}
             </div>
 
-            {/* ===================================================================
-                Scientist Mode Only Section
-                =================================================================== */}
-            {persona === 'scientist' && (
-              <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck size={16} className="text-purple-400" />
-                  <span className="text-xs font-semibold uppercase tracking-wider text-purple-300">
-                    Scientist Mode: Mathematical Formulation & QA
-                  </span>
-                </div>
+            {/* Harmonization Diagnostics & QA Verification */}
+            <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/80 flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <ShieldCheck size={16} className="text-indigo-600" />
+                <span className="text-xs font-bold uppercase tracking-wider text-indigo-900">
+                  Harmonization Diagnostics &amp; QA Verification
+                </span>
+              </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold font-sans">
-                    Overlap Metric Formulation:
-                  </span>
-                  <div className="p-3 rounded-lg bg-white border border-slate-200 font-serif text-xs text-slate-800 flex items-center gap-2 shadow-sm">
-                    <span className="font-bold italic text-purple-700 text-sm">O<sub>s</sub></span>
-                    <span className="text-slate-400">=</span>
-                    <div className="inline-flex flex-col items-center text-center font-sans">
-                      <span className="border-b border-slate-700 px-2 font-semibold text-blue-800">Area(A ∩ B)</span>
-                      <span className="font-semibold text-cyan-800">min( Area(A), Area(B) )</span>
-                    </div>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[11px] uppercase tracking-wider text-slate-600 font-bold font-sans">
+                  Overlap Metric Formulation:
+                </span>
+                <div className="p-3 rounded-lg bg-white border border-slate-200 font-serif text-xs text-slate-800 flex items-center gap-2 shadow-sm">
+                  <span className="font-bold italic text-purple-700 text-sm">O<sub>s</sub></span>
+                  <span className="text-slate-400">=</span>
+                  <div className="inline-flex flex-col items-center text-center font-sans">
+                    <span className="border-b border-slate-700 px-2 font-semibold text-blue-800">Area(A ∩ B)</span>
+                    <span className="font-semibold text-cyan-800">min( Area(A), Area(B) )</span>
                   </div>
-                  <p className="text-[11px] text-slate-600 leading-relaxed">
-                    Normalizing by min(Area(A), Area(B)) rather than union prevents artificial penalty from the 7× areal disparity between MODIS (1 km²) and VIIRS (0.14 km²) footprint geometries.
-                  </p>
                 </div>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  Normalizing by min(Area(A), Area(B)) rather than union prevents artificial penalty from the 7× areal disparity between MODIS (1 km²) and VIIRS (0.14 km²) footprint geometries.
+                </p>
+              </div>
 
-                <div className="flex flex-col gap-1 border-t border-purple-500/20 pt-2.5">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono">
-                    QA Status Flag Verification:
-                  </span>
-                  <div className="text-xs font-mono text-slate-700 bg-slate-100 p-2 rounded border border-slate-200">
-                    QA: PASS [0x00000000] — Scan angle: 14.2° (nominal, no bow-tie distortion), cloud fraction &lt; 0.05, water mask: land.
-                  </div>
+              <div className="flex flex-col gap-1 border-t border-indigo-200/60 pt-2.5">
+                <span className="text-[11px] uppercase tracking-wider text-slate-600 font-bold font-mono">
+                  QA Status Flag Verification:
+                </span>
+                <div className="text-xs font-mono text-slate-800 bg-white p-2.5 rounded border border-slate-200 shadow-xs">
+                  QA: PASS [0x00000000] — Scan angle: 14.2° (nominal, no bow-tie distortion), cloud fraction &lt; 0.05, water mask: land.
                 </div>
               </div>
-            )}
+            </div>
 
             {/* Action buttons */}
             <div className="pt-2 flex items-center justify-end">

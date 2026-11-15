@@ -1,27 +1,30 @@
 import { Microscope, ShieldAlert, Trees } from 'lucide-react';
 
 export const WhoIsItFor = () => {
-  const personas = [
+  const users = [
     {
       icon: <Microscope className="w-6 h-6 text-indigo-600" />,
       bg: 'bg-indigo-50 border-indigo-200',
       role: 'Remote Sensing Scientists',
       goal: 'Conduct robust multi-decadal fire trend studies',
-      highlight: 'Full provenance, SHA-256 hashes, IoU bipartite metrics, and raw QA flag transparency in Researcher View.',
+      highlight: 'Full provenance, SHA-256 hashes, IoU bipartite metrics, and raw QA flag verification integrated into every analysis.',
+      badge: 'Scientific Rigor',
     },
     {
       icon: <Trees className="w-6 h-6 text-emerald-600" />,
       bg: 'bg-emerald-50 border-emerald-200',
       role: 'Fire & Forest Land Managers',
       goal: 'Understand true regional burning regimes and crop residue schedules',
-      highlight: 'Plain-English burning calendars, cloud-obscured day warnings, and cluster boundaries in Story View.',
+      highlight: 'Plain-English burning calendars, cloud-obscured day alerts, and cluster boundaries directly alongside raw statistics.',
+      badge: 'Operational Clarity',
     },
     {
       icon: <ShieldAlert className="w-6 h-6 text-amber-600" />,
       bg: 'bg-amber-50 border-amber-200',
       role: 'Emergency Responders & Policy Analysts',
       goal: 'Verify wildfire spread without confusion between satellite products',
-      highlight: 'Single-source harmonized active-fire footprints ready for evacuation planning and smoke dispersion models.',
+      highlight: 'Single-source harmonized active-fire footprints ready for evacuation planning, smoke dispersion, and policy briefs.',
+      badge: 'Rapid Decision-Ready',
     },
   ];
 
@@ -41,7 +44,7 @@ export const WhoIsItFor = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {personas.map((p) => (
+          {users.map((p) => (
             <div
               key={p.role}
               className="p-6 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:shadow-lg transition-all flex flex-col justify-between"
@@ -63,7 +66,7 @@ export const WhoIsItFor = () => {
 
               <div className="pt-4 border-t border-slate-200/60 mt-5">
                 <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                  Persona View Supported
+                  {p.badge}
                 </span>
               </div>
             </div>

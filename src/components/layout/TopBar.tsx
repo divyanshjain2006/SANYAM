@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ChevronRight, Menu, X } from 'lucide-react';
-import { PersonaSwitcher } from './PersonaSwitcher';
 import logoImg from '../../assets/logo.jpg';
 
 export function TopBar() {
@@ -41,9 +40,9 @@ export function TopBar() {
         {/* Left: Application Logo & Name */}
         <Link to="/" className="flex items-center gap-3 no-underline group flex-shrink-0">
           <div className="relative w-9 h-9 rounded-full overflow-hidden shadow-sm ring-1 ring-slate-200/80 group-hover:scale-105 transition-transform bg-slate-900">
-            <img 
-              src={logoImg} 
-              alt="SANYAM Satellite Fire Observation Logo" 
+            <img
+              src={logoImg}
+              alt="SANYAM Satellite Fire Observation Logo"
               className="w-full h-full object-cover"
             />
           </div>
@@ -55,29 +54,37 @@ export function TopBar() {
         </Link>
 
         {/* Center / Navigation Links (Desktop) */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="text-[13.5px] font-medium text-slate-700 hover:text-blue-600 transition-colors no-underline cursor-pointer"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+        {!isDashboard ? (
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="text-[13.5px] font-medium text-slate-700 hover:text-blue-600 transition-colors no-underline cursor-pointer"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        ) : (
+          <div className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-xs text-slate-700">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="font-semibold text-slate-900">NASA Fire Harmonization Platform</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-slate-500">MODIS &amp; VIIRS Cross-Calibration</span>
+          </div>
+        )}
 
-        {/* Right: Dashboard Persona Switcher (if on dashboard) + Explore Dashboard Pill CTA */}
+        {/* Right: Dashboard Back to Home CTA (if on dashboard) or Explore Dashboard Pill CTA */}
         <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
           {isDashboard ? (
             <div className="flex items-center gap-2">
-              <PersonaSwitcher />
               <Link
                 to="/"
-                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors no-underline"
+                className="px-4 py-2 rounded-full text-xs font-semibold text-slate-700 hover:text-blue-600 hover:bg-slate-100 border border-slate-200 transition-colors no-underline flex items-center gap-1.5"
               >
-                Home
+                <span>← Return to Overview</span>
               </Link>
             </div>
           ) : (

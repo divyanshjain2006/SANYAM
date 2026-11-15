@@ -186,7 +186,6 @@ export default function DashboardPage() {
           <WorkspaceErrorBoundary tab="Calendar Workspace">
             <Suspense fallback={<LoadingPane />}>
               <div className="p-6" style={{ minHeight: 'calc(100vh - 64px)' }}>
-                <KpiCards />
                 <CalendarWorkspace />
               </div>
             </Suspense>

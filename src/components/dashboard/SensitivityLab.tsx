@@ -11,7 +11,6 @@ import {
   ReferenceLine,
 } from 'recharts';
 import provenanceData from '../../mocks/provenance';
-import { usePersona } from '../../store/personaStore';
 import {
   Sliders,
   Download,
@@ -22,13 +21,10 @@ import {
   Check,
   Target,
   RefreshCw,
-  Info,
-  ShieldCheck,
   Database,
 } from 'lucide-react';
 
 export function SensitivityLab() {
-  const { persona } = usePersona();
 
   // Sliders state
   const [spatialKm, setSpatialKm] = useState<number>(2.0);
@@ -355,25 +351,14 @@ export function SensitivityLab() {
             </div>
           </div>
 
-          {/* Persona Explanation inside Control Box */}
-          <div className="p-3 rounded-lg bg-[rgba(15,23,42,0.6)] border border-slate-100 text-xs space-y-1">
-            <div className="flex items-center gap-1.5 font-medium text-slate-800">
-              {persona === 'scientist' ? (
-                <>
-                  <Info className="w-3.5 h-3.5 text-[#A78BFA]" />
-                  <span>IoU Bipartite Formulation</span>
-                </>
-              ) : (
-                <>
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#34D399]" />
-                  <span>How Tuning Works</span>
-                </>
-              )}
+          {/* Tuning Explanation inside Control Box */}
+          <div className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200/80 text-xs space-y-1.5 shadow-xs">
+            <div className="flex items-center gap-1.5 font-bold text-blue-900">
+              <Sliders className="w-4 h-4 text-blue-600" />
+              <span>Spatial &amp; Temporal Tuning Dynamics</span>
             </div>
-            <p className="text-[11px] text-slate-600 leading-relaxed">
-              {persona === 'scientist'
-                ? 'Centroid distance filter Δd ≤ spatialKm gates candidate edge creation before computing Jaccard IoU and smaller-footprint overlap Os = Area(A ∩ B) / min(Area(A), Area(B)).'
-                : 'Tighter spatial filters make sure only fire detections that truly overlap are linked together. Wider windows allow comparing satellites passing an hour apart.'}
+            <p className="text-[11px] text-slate-700 leading-relaxed">
+              Centroid distance filter <span className="font-mono text-slate-900 font-semibold">Δd ≤ spatialKm</span> and temporal window <span className="font-mono text-slate-900 font-semibold">|Δt| ≤ temporalHours</span> gate candidate bipartite edge creation before computing Jaccard IoU and footprint overlap <span className="font-serif font-bold text-indigo-700">O<sub>s</sub></span>. Tighter thresholds prevent spurious cross-sensor linkage while wider windows capture inter-satellite pass variations.
             </p>
           </div>
         </div>

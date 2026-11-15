@@ -15,11 +15,9 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import frpData from '../../mocks/frpData';
-import { usePersona } from '../../store/personaStore';
 import { Flame, Activity, Zap, TrendingUp, Info, ShieldCheck } from 'lucide-react';
 
 export function FRPStudio() {
-  const { persona } = usePersona();
 
   // Split MODIS and VIIRS records for Chart 1
   const modisData = useMemo(
@@ -132,20 +130,15 @@ export function FRPStudio() {
               FRP Harmonization Studio
             </h1>
           </div>
-          <p className="text-sm text-slate-400 mt-1">
-            Analyzing raw vs sensor-adjusted Fire Radiative Power (MW) and cross-sensor detection thresholds across MODIS & VIIRS.
+          <p className="text-sm text-slate-600 mt-1">
+            Analyzing raw vs sensor-adjusted Fire Radiative Power (MW) and cross-sensor detection thresholds across MODIS &amp; VIIRS.
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start md:self-auto">
-          <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-white border border-slate-200 text-slate-600 flex items-center gap-1.5">
-            <span
-              className="w-2 h-2 rounded-full"
-              style={{
-                backgroundColor: persona === 'scientist' ? '#A78BFA' : '#34D399',
-              }}
-            />
-            {persona === 'scientist' ? 'Scientist / Research Mode' : 'Policy / Manager Mode'}
+          <span className="text-xs px-3 py-1.5 rounded-full font-semibold bg-blue-50 border border-blue-200 text-blue-700 flex items-center gap-1.5 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+            Harmonized FRP Calibration Analytics
           </span>
         </div>
       </div>
@@ -518,149 +511,125 @@ export function FRPStudio() {
           </ResponsiveContainer>
         </div>
 
-        {/* Persona adaptive explanation under Chart 3 */}
+        {/* Unified dual-perspective explanation under Chart 3 */}
         <div className="mt-4 pt-3 border-t border-slate-200">
-          {persona === 'scientist' ? (
-            <div className="p-3.5 rounded-lg bg-[rgba(167,139,250,0.08)] border border-[rgba(167,139,250,0.25)] flex items-start gap-3">
-              <Info className="w-5 h-5 text-[#A78BFA] shrink-0 mt-0.5" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 rounded-xl bg-cyan-50/70 border border-cyan-200/80 flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-cyan-600 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <span className="text-[11px] font-bold text-cyan-800 uppercase tracking-wide">
+                  Operational Finding
+                </span>
+                <p className="text-sm font-semibold text-slate-900">
+                  VIIRS detects fires ~4× smaller than MODIS threshold.
+                </p>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Small agricultural crop-residue burns (1.5 to 5.0 MW) reliably trigger VIIRS detections while remaining below MODIS daytime detection limit (5.7 MW). Harmonization ensures zero MODIS detections are not falsely interpreted as absent burning.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/80 flex items-start gap-3">
+              <Info className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-[#A78BFA] uppercase tracking-wide">
+                  <span className="text-[11px] font-bold text-indigo-800 uppercase tracking-wide">
                     Analytical Physical Formula
                   </span>
-                  <code className="text-xs font-mono px-2 py-0.5 rounded bg-[rgba(15,23,42,0.6)] text-slate-800 border border-[rgba(167,139,250,0.3)]">
+                  <code className="text-xs font-mono px-2 py-0.5 rounded bg-white text-indigo-900 border border-indigo-200 font-bold">
                     Dₚ = 5.7 × √(Aₚ / A_ref) [MW]
                   </code>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Theoretical minimum detectable Fire Radiative Power (MW) scales with the square root of instantaneous ground pixel area <span className="font-mono text-slate-800">Aₚ</span>. For MODIS, off-nadir scan distortion causes pixel area expansion from 1.0 km² up to ~4.8 km² at swath edge, raising detection threshold from 5.7 MW to &gt;12 MW. VIIRS 375m pixel aggregation constrains scan expansion to ~2× (0.141 km² to ~0.3 km²), preserving sub-2 MW daytime detection sensitivity across nearly the full 3040 km swath.
+                  Minimum detectable FRP scales with pixel footprint area <span className="font-mono text-slate-800">Aₚ</span>. MODIS off-nadir scan distortion expands pixel area from 1.0 km² to 4.8 km² at swath edge (&gt;12 MW threshold). VIIRS 375m pixel aggregation constrains scan expansion to ~2× (0.141 km² to ~0.3 km²), preserving sub-2 MW detection across 3040 km swaths.
                 </p>
               </div>
             </div>
-          ) : (
-            <div className="p-3.5 rounded-lg bg-[rgba(34,211,238,0.08)] border border-[rgba(34,211,238,0.25)] flex items-start gap-3">
-              <ShieldCheck className="w-5 h-5 text-[#22D3EE] shrink-0 mt-0.5" />
-              <div className="space-y-1">
-                <span className="text-xs font-semibold text-[#22D3EE] uppercase tracking-wide">
-                  Executive Operational Takeaway
-                </span>
-                <p className="text-sm font-medium text-slate-800">
-                  VIIRS detects fires 4× smaller than MODIS can see.
-                </p>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Small crop-residue burns (1.5 to 5.0 MW) will frequently trigger VIIRS alerts while remaining completely invisible to MODIS. SANYAM harmonizes these differences so zero detections in MODIS are never misinterpreted as the absence of fire.
-                </p>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       </div>
 
       {/* Summary Metric Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Mean Bias Card */}
-        <div
-          className="rounded-xl p-4 flex flex-col justify-between"
-          style={{
-            background: '#FFFFFF',
-            border: '1px solid #E2E8F0',
-          }}
-        >
-          <div className="flex items-center justify-between text-slate-400 text-xs">
-            <span>Mean Bias</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(226,232,240,0.8)]">
+        <div className="rounded-xl p-4 flex flex-col justify-between bg-white border border-slate-200 shadow-sm">
+          <div className="flex items-center justify-between text-slate-500 text-xs">
+            <span className="font-medium">Mean Bias</span>
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">
               Adj - Raw
             </span>
           </div>
           <div className="my-2">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold font-mono text-slate-800">
+              <span className="text-2xl font-bold font-mono text-slate-900">
                 {metrics.meanBias >= 0 ? `+${metrics.meanBias.toFixed(2)}` : metrics.meanBias.toFixed(2)}
               </span>
-              <span className="text-xs text-slate-400">MW</span>
+              <span className="text-xs text-slate-500 font-medium">MW</span>
             </div>
           </div>
-          <div className="text-[11px] text-slate-400 border-t border-[rgba(226,232,240,0.6)] pt-2">
+          <div className="text-[11px] text-slate-500 border-t border-slate-100 pt-2">
             Average systematic adjustment shift
           </div>
         </div>
 
         {/* MAE Card */}
-        <div
-          className="rounded-xl p-4 flex flex-col justify-between"
-          style={{
-            background: '#FFFFFF',
-            border: '1px solid #E2E8F0',
-          }}
-        >
-          <div className="flex items-center justify-between text-slate-400 text-xs">
-            <span>Mean Absolute Error</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(226,232,240,0.8)]">
+        <div className="rounded-xl p-4 flex flex-col justify-between bg-white border border-slate-200 shadow-sm">
+          <div className="flex items-center justify-between text-slate-500 text-xs">
+            <span className="font-medium">Mean Absolute Error</span>
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 font-semibold border border-amber-200">
               MAE
             </span>
           </div>
           <div className="my-2">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold font-mono text-[#F59E0B]">
+              <span className="text-2xl font-bold font-mono text-amber-600">
                 {metrics.mae.toFixed(2)}
               </span>
-              <span className="text-xs text-slate-400">MW</span>
+              <span className="text-xs text-slate-500 font-medium">MW</span>
             </div>
           </div>
-          <div className="text-[11px] text-slate-400 border-t border-[rgba(226,232,240,0.6)] pt-2">
+          <div className="text-[11px] text-slate-500 border-t border-slate-100 pt-2">
             Average magnitude of FRP calibration
           </div>
         </div>
 
         {/* RMSE Card */}
-        <div
-          className="rounded-xl p-4 flex flex-col justify-between"
-          style={{
-            background: '#FFFFFF',
-            border: '1px solid #E2E8F0',
-          }}
-        >
-          <div className="flex items-center justify-between text-slate-400 text-xs">
-            <span>Root Mean Square Error</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(226,232,240,0.8)]">
+        <div className="rounded-xl p-4 flex flex-col justify-between bg-white border border-slate-200 shadow-sm">
+          <div className="flex items-center justify-between text-slate-500 text-xs">
+            <span className="font-medium">Root Mean Square Error</span>
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-cyan-50 text-cyan-800 font-semibold border border-cyan-200">
               RMSE
             </span>
           </div>
           <div className="my-2">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold font-mono text-[#22D3EE]">
+              <span className="text-2xl font-bold font-mono text-cyan-600">
                 {metrics.rmse.toFixed(2)}
               </span>
-              <span className="text-xs text-slate-400">MW</span>
+              <span className="text-xs text-slate-500 font-medium">MW</span>
             </div>
           </div>
-          <div className="text-[11px] text-slate-400 border-t border-[rgba(226,232,240,0.6)] pt-2">
+          <div className="text-[11px] text-slate-500 border-t border-slate-100 pt-2">
             Sensitivity to high-energy outliers
           </div>
         </div>
 
         {/* SRD Card */}
-        <div
-          className="rounded-xl p-4 flex flex-col justify-between"
-          style={{
-            background: '#FFFFFF',
-            border: '1px solid #E2E8F0',
-          }}
-        >
-          <div className="flex items-center justify-between text-slate-400 text-xs">
-            <span>Symmetric Relative Diff</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[rgba(226,232,240,0.8)]">
+        <div className="rounded-xl p-4 flex flex-col justify-between bg-white border border-slate-200 shadow-sm">
+          <div className="flex items-center justify-between text-slate-500 text-xs">
+            <span className="font-medium">Symmetric Relative Diff</span>
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
               SRD
             </span>
           </div>
           <div className="my-2">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold font-mono text-[#34D399]">
+              <span className="text-2xl font-bold font-mono text-emerald-600">
                 {metrics.srd.toFixed(1)}%
               </span>
             </div>
           </div>
-          <div className="text-[11px] text-slate-400 border-t border-[rgba(226,232,240,0.6)] pt-2">
+          <div className="text-[11px] text-slate-500 border-t border-slate-100 pt-2">
             Normalized relative disparity index
           </div>
         </div>
